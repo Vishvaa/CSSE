@@ -19,7 +19,6 @@ class convertt():
                             else:
                                 Dict = {'error':'true.'}
                                 break
-
                         elif inputString[i]== '%' and inputString[i+1] == '2' and inputString[i+2] == 'C':
                             i += 3
                             if Flagg == False:
@@ -51,16 +50,13 @@ class convertt():
                         else:
                             Dict = {'error':'true'}
                             break
-
                     else:
                         if Flagg == False:
                             Key += inputString[i]
                             i += 1
-
                         if Flagg == True:
                             value += inputString[i]
                             i += 1
-
                 if Flagg == False:
                     Dict = {'error':'true'}
                 elif value == "" or Key == "":
@@ -72,7 +68,4 @@ class convertt():
                         Dict[Key] = value
             else:
                 Dict = {'error':'true'}
-
         return Dict
-
-
