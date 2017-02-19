@@ -2,7 +2,6 @@ import unittest
 import softwareprocess.Sample as SM
 import math
 
-
 class SampleTest(unittest.TestCase):
 
     def setUp(self):
