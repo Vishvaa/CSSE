@@ -1,4 +1,4 @@
-from __future__ import 
+from __future__ import absolute_import
 import unittest
 import softwareprocess.Sample as SM
 import math
