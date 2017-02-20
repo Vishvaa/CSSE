@@ -82,4 +82,6 @@ class Sample(object):
                     w += w
                 total = total + exp1 + exp2
             simpsonNew = w1 * (intf + total + f(highBound, n))
+            s *= 2
+        return simpsonNew
 
