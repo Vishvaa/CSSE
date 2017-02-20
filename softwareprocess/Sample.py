@@ -76,13 +76,13 @@ class Sample(object):
             w1 = w / 3
             intf = f(lowBound, n)
             while (lowBound + w) < highBound:
-                exp1 = 4(f(lowBound + w, n))
+                exp1 = 4(self.f(lowBound + w, n))
                 w += w
                 if (lowBound + w) < highBound:
-                    exp2 = 2(f(lowBound + w, n))
+                    exp2 = 2(self.f(lowBound + w, n))
                     w += w
                 total = total + exp1 + exp2
-            simpsonNew = w1 * (intf + total + f(highBound, n))
+            simpsonNew = w1 * (intf + total + self.f(highBound, n))
             s *= 2
         return simpsonNew
 
