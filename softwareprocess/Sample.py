@@ -64,10 +64,11 @@ class Sample(object):
         result = base ** exponent
         return result
     
-    def integrate(self, highBound, n, f):
+    def integrate(self, t, n, f):
         epsilon = 0.001
         simpsonOld = 0.0
         lowBound = 0
+        highBound = t
         simpsonNew = epsilon
         s = 4
         while abs((simpsonNew-simpsonOld)/simpsonNew) > epsilon:
