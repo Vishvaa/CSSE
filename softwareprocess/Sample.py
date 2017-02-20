@@ -64,7 +64,7 @@ class Sample(object):
         result = base ** exponent
         return result
     
-    def integrate(self, lowBound, highBound, n, f):
+    def integrate(self, highBound, n, f):
         epsilon = 0.001
         simpsonOld = 0.0
         simpsonNew = epsilon
