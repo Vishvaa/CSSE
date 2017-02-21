@@ -39,7 +39,7 @@ class Sample(object):
             
         if(result > 1.0):
             raise ValueError(functionName + "result > 1.0")
-        result = round(result,1)
+        result = round(result,3)
         return result
         
 # internal methods
