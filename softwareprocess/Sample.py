@@ -72,7 +72,7 @@ class Sample(object):
         s = 4
         while abs((simpsonNew-simpsonOld)/simpsonNew) > epsilon:
             simpsonOld = simpsonNew
-            w = (highBound - lowBound)/s
+            w = round((highBound - lowBound)/s, 5)
             w1 = w / 3
             intf = f(lowBound, n)
             while (lowBound + w) < highBound:
