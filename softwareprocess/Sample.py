@@ -39,7 +39,7 @@ class Sample(object):
             
         if(result > 1.0):
             raise ValueError(functionName + "result > 1.0")
-        
+        result = round(result,3)
         return result
         
 # internal methods
@@ -70,19 +70,20 @@ class Sample(object):
         total = 0.0
         simpsonNew = epsilon
         s = 4
-        while abs((simpsonNew-simpsonOld)/simpsonNew) > epsilon:
+        while (abs((simpsonNew - simpsonOld) / simpsonNew) > epsilon):
             simpsonOld = simpsonNew
             w = round((highBound - lowBound)/s, 5)
             w1 = w / 3
             intf = f(lowBound, n)
             while (lowBound + w) < highBound:
                 exp1 = f(lowBound + w, n)
+                exp1 *= 4
                 w += w
                 if (lowBound + w) < highBound:
                     exp2 = f(lowBound + w, n)
+                    exp2 *= 2
                     w += w
                 total = total + exp1 + exp2
             simpsonNew = w1 * (intf + total + f(highBound, n))
             s *= 2
         return simpsonNew
-
