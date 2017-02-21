@@ -67,23 +67,22 @@ class Sample(object):
     def integrate(self, lowBound, highBound, n, f):
         epsilon = 0.001
         simpsonOld = 0.0
-        total = 0.0
+        final = [4,2]
         simpsonNew = epsilon
         s = 4
-        while (abs((simpsonNew - simpsonOld) / simpsonNew) > epsilon):
+        while (abs((simpsonNew - simpsonOld)/simpsonNew) > epsilon):
             simpsonOld = simpsonNew
-            w = round((highBound - lowBound)/s, 5)
-            w1 = w / 3
-            intf = f(lowBound, n)
-            while (lowBound + w) < highBound:
-                exp1 = f(lowBound + w, n)
-                exp1 *= 4
-                w += w
-                if (lowBound + w) < highBound:
-                    exp2 = f(lowBound + w, n)
-                    exp2 *= 2
-                    w += w
-                total = total + exp1 + exp2
-            simpsonNew = w1 * (intf + total + f(highBound, n))
+            w = (highBound - lowBound) / s
+            total = 0.0
+            for i in range(0, s + 1):
+                if i == 0:
+                    total = total + self.f(lowBound, n)
+                elif i == s:
+                    total = total + self.f(highBound, n)
+                else:
+                    u = lowBound + (i * w)
+                    correct = final[i % 2]
+                    total = total + (correct * self.f(u,n))
+            simpsonNew = w/3 * total
             s *= 2
         return simpsonNew
