@@ -18,7 +18,7 @@ class dispatch(TestCase):
     def test_100_010_ShouldCalculateAltitudeWithMandatoryInformation(self):
         param = {'observation': '30d1.5', 'height': '19.0', 'pressure': '1000', 'horizon': 'artificial', 'op': 'adjust', 'temperature': '85'}
         expectedparam = {'altitude': '29d59.9', 'observation': '30d1.5', 'height': '19.0', 'pressure': '1000', 'horizon': 'artificial', 'op': 'adjust', 'temperature': '85'}
-        self.assertDictEqual(dspt.dispatch(param), expectedparam)
+        self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with All Mandatory Information Provided.")
 
 
 
