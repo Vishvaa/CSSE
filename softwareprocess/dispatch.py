@@ -1,5 +1,5 @@
 from math import sqrt
-def obser2atl():
+def obser2atl(con):
     pass
 def dispatch(values=None):
     dip = 0
