@@ -1,5 +1,8 @@
+from math import sqrt
+def obser2atl():
+    pass
 def dispatch(values=None):
-
+    dip = 0
     #Validate parm
     if(values == None):
         return {'error': 'parameter is missing'}
@@ -11,6 +14,9 @@ def dispatch(values=None):
 
     #Perform designated function
     if(values['op'] == 'adjust'):
+        if(values['horizon'] == 'natural'):
+            dip = ((-0.97 * sqrt(values['height']))/60)
+        refraction = (-0.00452*values['pressure']/ (273))
         return values    #<-------------- replace this with your implementation
     elif(values['op'] == 'predict'):
         return values    #This calculation is stubbed out
