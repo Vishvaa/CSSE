@@ -32,11 +32,13 @@ def convertString2Dictionary(self, inputString = ""):
                                         break
                                     else:
                                         Dict[Key] = value
+                                        print Dict
                                         Flagg = False
                                         Key = ''
                                         value = ''
                                 else:
                                     Dict = {'error':'true'}
+                                    print Dict
                                     Flagg = False
                                     break
                         else:
@@ -52,9 +54,11 @@ def convertString2Dictionary(self, inputString = ""):
                 else:
                     if Flagg == False:
                         Key += inputString[i]
+                        print Key
                         i += 1
                     if Flagg == True:
                         value += inputString[i]
+                        print value
                         i += 1
             if Flagg == False:
                 Dict = {'error':'true'}
@@ -65,6 +69,7 @@ def convertString2Dictionary(self, inputString = ""):
                     Dict = {'error':'true'}
                 else:
                     Dict[Key] = value
+                    print Dict
         else:
             Dict = {'error':'true'}
     return Dict

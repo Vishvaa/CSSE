@@ -1,6 +1,23 @@
 from math import sqrt
+
 def obser2atl(con):
-    pass
+    con = str(con)
+    if con.find("d") == False:
+        con = "error"
+        return con
+    else:
+        degnmin = con.split("d")
+        global degree
+        global minute
+        degree = int(degnmin[0])
+        minute = float(degnmin[1])
+        minute = round(minute,1)
+        if degree < 0 or degree > 90 or minute < 0.0 or minute > 60.0:
+            con = "error"
+            return con
+        else:
+            return con
+
 def dispatch(values=None):
     dip = 0
     #Validate parm
@@ -12,18 +29,31 @@ def dispatch(values=None):
         values['error'] = 'no op  is specified'
         return values
 
-    #Perform designated function
-    if(values['op'] == 'adjust'):
-        if(values['horizon'] == 'natural'):
-            dip = ((-0.97 * sqrt(values['height']))/60)
-        refraction = (-0.00452*values['pressure']/ (273))
-        return values    #<-------------- replace this with your implementation
-    elif(values['op'] == 'predict'):
-        return values    #This calculation is stubbed out
-    elif(values['op'] == 'correct'):
-        return values    #This calculation is stubbed out
-    elif(values['op'] == 'locate'):
-        return values    #This calculation is stubbed out
+    if values['observation'] != "":
+        tempaltitude = obser2atl(values['observation'])
+
+        if tempaltitude != "error":
+            #Perform designated function
+            if(values['op'] == 'adjust'):
+                if(values['horizon'] == 'natural'):
+                    dip = ((-0.97 * sqrt(values['height']))/60)
+                refraction = (-0.00452*values['pressure']/ (273))
+                return values    #<-------------- replace this with your implementation
+            elif(values['op'] == 'predict'):
+                return values    #This calculation is stubbed out
+            elif(values['op'] == 'correct'):
+                return values    #This calculation is stubbed out
+            elif(values['op'] == 'locate'):
+                return values    #This calculation is stubbed out
+            else:
+                values['error'] = 'op is not a legal operation'
+                return values
+        else:
+            values['error'] = 'observation value is invalid'
+            return values
+
+
+
     else:
-        values['error'] = 'op is not a legal operation'
+        values['error'] = 'observation is missing'
         return values

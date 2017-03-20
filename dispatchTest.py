@@ -4,8 +4,8 @@ from softwareprocess.dispatch import dispatch as dspt
 #import softwareprocess.dispatch as dspt
 
 class dispatch(TestCase):
-    def setUpClass(cls):
-        cls.errorDict = {'error':'true'}
+    # def setUpClass(cls):
+    #     cls.errorDict = {'error':'true'}
 
 # Happy Path tests
 
