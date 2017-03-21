@@ -1,5 +1,5 @@
 import urllib
-def convertString2Dictionary(self, inputString = ""):
+def convertString2Dictionary(inputString = ""):
     Key = ''
     value = ''
     Dict = {}
@@ -12,11 +12,15 @@ def convertString2Dictionary(self, inputString = ""):
             lenght = len(inputString)
             while i < lenght:
                 if inputString[i] == '%':
-                    if inputString[i]== '%' and inputString[i+1] == '2' and inputString[i+2] == '0':
+                    if inputString[i] == '%' and inputString[i+1] == '2' and inputString[i+2] == '0':
                         if inputString[i+3] == '%' or inputString[i-3] == '%':
                             i += 3
+                            pass
                         else:
-                            Dict = {'error':'true.'}
+                            Dict.clear()
+                            Key = ""
+                            value = ""
+                            Dict = {'error':'true'}
                             break
                     elif inputString[i]== '%' and inputString[i+1] == '2' and inputString[i+2] == 'C':
                         i += 3
@@ -26,7 +30,7 @@ def convertString2Dictionary(self, inputString = ""):
                         if inputString[i].isalpha() and inputString[i+1] != '%':
                             if Flagg == True:
                                 if i < lenght:
-                                    if Key in Dict or "_" in value:
+                                    if Key in Dict or "_" in value or "_" in Key:
                                         Dict = {'error':'true'}
                                         Flagg = False
                                         break
@@ -65,7 +69,7 @@ def convertString2Dictionary(self, inputString = ""):
             elif value == "" or Key == "":
                 Dict = {'error':'true'}
             else:
-                if Key in Dict or "_" in value:
+                if Key in Dict or "_" in value or "_" in Key:
                     Dict = {'error':'true'}
                 else:
                     Dict[Key] = value

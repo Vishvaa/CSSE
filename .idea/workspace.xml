@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7c9dc68c-e21f-4e89-bd44-20463639288f" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dispatchTest.py" afterPath="$PROJECT_DIR$/dispatchTest.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/softwareprocess/dispatch.py" afterPath="$PROJECT_DIR$/softwareprocess/dispatch.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/convertString2DictionaryTest.py" afterPath="$PROJECT_DIR$/convertString2DictionaryTest.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/softwareprocess/convertString2Dictionary.py" afterPath="$PROJECT_DIR$/softwareprocess/convertString2Dictionary.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -21,14 +23,14 @@
       <file leaf-file-name="Sample.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/softwareprocess/Sample.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="298">
+            <state relative-caret-position="1650">
               <caret line="75" column="23" lean-forward="false" selection-start-line="75" selection-start-column="23" selection-end-line="75" selection-end-column="23" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dispatch.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="dispatch.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/softwareprocess/dispatch.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="506">
@@ -41,8 +43,8 @@
       <file leaf-file-name="dispatchTest.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dispatchTest.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="9" column="18" lean-forward="true" selection-start-line="9" selection-start-column="18" selection-end-line="9" selection-end-column="18" />
+            <state relative-caret-position="154">
+              <caret line="9" column="18" lean-forward="false" selection-start-line="9" selection-start-column="18" selection-end-line="9" selection-end-column="18" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
               </folding>
@@ -53,18 +55,18 @@
       <file leaf-file-name="convertString2Dictionary.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/softwareprocess/convertString2Dictionary.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-121">
-              <caret line="32" column="41" lean-forward="true" selection-start-line="32" selection-start-column="41" selection-end-line="32" selection-end-column="41" />
+            <state relative-caret-position="234">
+              <caret line="17" column="32" lean-forward="false" selection-start-line="17" selection-start-column="32" selection-end-line="17" selection-end-column="32" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="convertString2DictionaryTest.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="convertString2DictionaryTest.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/convertString2DictionaryTest.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1122">
-              <caret line="54" column="0" lean-forward="false" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
+            <state relative-caret-position="-506">
+              <caret line="43" column="40" lean-forward="true" selection-start-line="43" selection-start-column="40" selection-end-line="43" selection-end-column="40" />
               <folding />
             </state>
           </provider>
@@ -91,6 +93,11 @@
       </list>
     </option>
   </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>retu</find>
+    </findStrings>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -102,9 +109,10 @@
         <option value="$USER_HOME$/Downloads/TCurve.py" />
         <option value="$PROJECT_DIR$/softwareprocess/Sample.py" />
         <option value="$PROJECT_DIR$/test/dispatchTest.py" />
-        <option value="$PROJECT_DIR$/softwareprocess/convertString2Dictionary.py" />
         <option value="$PROJECT_DIR$/dispatchTest.py" />
         <option value="$PROJECT_DIR$/softwareprocess/dispatch.py" />
+        <option value="$PROJECT_DIR$/softwareprocess/convertString2Dictionary.py" />
+        <option value="$PROJECT_DIR$/convertString2DictionaryTest.py" />
       </list>
     </option>
   </component>
@@ -426,35 +434,35 @@
     <option name="remove_strategy" value="false" />
   </component>
   <component name="TestHistory">
-    <history-entry file="All_Tests_(TDD) - 2017.03.18 at 01h 40m 03s.xml">
+    <history-entry file="All_Tests_(TDD) - 2017.03.21 at 00h 11m 22s.xml">
       <configuration name="All Tests (TDD)" configurationId="tests" />
     </history-entry>
-    <history-entry file="All_Tests_(TDD) - 2017.03.18 at 01h 40m 26s.xml">
+    <history-entry file="All_Tests_(TDD) - 2017.03.21 at 00h 12m 00s.xml">
       <configuration name="All Tests (TDD)" configurationId="tests" />
     </history-entry>
-    <history-entry file="All_Tests_(TDD) - 2017.03.18 at 01h 40m 55s.xml">
+    <history-entry file="All_Tests_(TDD) - 2017.03.21 at 00h 14m 13s.xml">
       <configuration name="All Tests (TDD)" configurationId="tests" />
     </history-entry>
-    <history-entry file="All_Tests_(TDD) - 2017.03.18 at 01h 42m 55s.xml">
+    <history-entry file="All_Tests_(TDD) - 2017.03.21 at 00h 17m 26s.xml">
       <configuration name="All Tests (TDD)" configurationId="tests" />
     </history-entry>
-    <history-entry file="All_Tests_(TDD) - 2017.03.18 at 01h 44m 59s.xml">
+    <history-entry file="All_Tests_(TDD) - 2017.03.21 at 00h 22m 03s.xml">
       <configuration name="All Tests (TDD)" configurationId="tests" />
     </history-entry>
-    <history-entry file="All_Tests_(TDD) - 2017.03.18 at 01h 48m 02s.xml">
+    <history-entry file="All_Tests_(TDD) - 2017.03.21 at 00h 22m 57s.xml">
       <configuration name="All Tests (TDD)" configurationId="tests" />
     </history-entry>
-    <history-entry file="All_Tests_(TDD) - 2017.03.19 at 01h 39m 53s.xml">
+    <history-entry file="All_Tests_(TDD) - 2017.03.21 at 00h 23m 52s.xml">
       <configuration name="All Tests (TDD)" configurationId="tests" />
     </history-entry>
-    <history-entry file="All_Tests_(TDD) - 2017.03.19 at 01h 40m 47s.xml">
+    <history-entry file="All_Tests_(TDD) - 2017.03.21 at 00h 26m 07s.xml">
       <configuration name="All Tests (TDD)" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unittests_in_dispatchTest - 2017.03.18 at 01h 40m 51s.xml">
-      <configuration name="Unittests in dispatchTest" configurationId="tests" />
+    <history-entry file="All_Tests_(TDD) - 2017.03.21 at 00h 26m 54s.xml">
+      <configuration name="All Tests (TDD)" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unittests_in_dispatchTest - 2017.03.18 at 01h 41m 08s.xml">
-      <configuration name="Unittests in dispatchTest" configurationId="tests" />
+    <history-entry file="All_Tests_(TDD) - 2017.03.21 at 00h 29m 20s.xml">
+      <configuration name="All Tests (TDD)" configurationId="tests" />
     </history-entry>
   </component>
   <component name="ToolWindowManager">
@@ -464,8 +472,8 @@
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.102591224" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33522728" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33010754" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.35795453" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32954547" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -493,6 +501,50 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/softwareprocess/dispatch.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="506">
+          <caret line="23" column="23" lean-forward="false" selection-start-line="23" selection-start-column="23" selection-end-line="23" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dispatchTest.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="9" column="18" lean-forward="true" selection-start-line="9" selection-start-column="18" selection-end-line="9" selection-end-column="18" />
+          <folding>
+            <element signature="e#0#29#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/softwareprocess/convertString2Dictionary.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/convertString2DictionaryTest.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1518">
+          <caret line="72" column="64" lean-forward="true" selection-start-line="72" selection-start-column="64" selection-end-line="72" selection-end-column="64" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/softwareprocess/lambda_function.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#27#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/softwareprocess/Sample.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1650">
@@ -747,7 +799,7 @@
     <entry file="file://$PROJECT_DIR$/test/dispatchTest.py" />
     <entry file="file://$PROJECT_DIR$/softwareprocess/Sample.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
+        <state relative-caret-position="1650">
           <caret line="75" column="23" lean-forward="false" selection-start-line="75" selection-start-column="23" selection-end-line="75" selection-end-column="23" />
           <folding />
         </state>
@@ -763,29 +815,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/softwareprocess/convertString2Dictionary.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-121">
-          <caret line="32" column="41" lean-forward="true" selection-start-line="32" selection-start-column="41" selection-end-line="32" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/dispatchTest.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="9" column="18" lean-forward="true" selection-start-line="9" selection-start-column="18" selection-end-line="9" selection-end-column="18" />
+        <state relative-caret-position="154">
+          <caret line="9" column="18" lean-forward="false" selection-start-line="9" selection-start-column="18" selection-end-line="9" selection-end-column="18" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/convertString2DictionaryTest.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1122">
-          <caret line="54" column="0" lean-forward="false" selection-start-line="54" selection-start-column="0" selection-end-line="54" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -793,6 +829,22 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="506">
           <caret line="23" column="23" lean-forward="false" selection-start-line="23" selection-start-column="23" selection-end-line="23" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/softwareprocess/convertString2Dictionary.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="17" column="32" lean-forward="false" selection-start-line="17" selection-start-column="32" selection-end-line="17" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/convertString2DictionaryTest.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-506">
+          <caret line="43" column="40" lean-forward="true" selection-start-line="43" selection-start-column="40" selection-end-line="43" selection-end-column="40" />
           <folding />
         </state>
       </provider>
