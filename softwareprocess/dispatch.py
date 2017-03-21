@@ -37,6 +37,8 @@ def dispatch(values=None):
             if(values['op'] == 'adjust'):
                 if(values['horizon'] == 'natural'):
                     dip = ((-0.97 * sqrt(values['height']))/60)
+                    temper = (values['temperature'] - 32 ) /9 / 5
+
                 refraction = (-0.00452*values['pressure']/ (273))
                 return values    #<-------------- replace this with your implementation
             elif(values['op'] == 'predict'):

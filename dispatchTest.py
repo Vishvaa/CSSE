@@ -1,7 +1,7 @@
 from unittest import TestCase
 import urllib
-from softwareprocess.dispatch import dispatch as dspt
-#import softwareprocess.dispatch as dspt
+import softwareprocess.dispatch as dspt
+
 
 class dispatch(TestCase):
     # def setUpClass(cls):
