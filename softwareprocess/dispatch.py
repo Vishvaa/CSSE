@@ -1,5 +1,6 @@
 #from math import sqrt
 import math
+import re
 def obser2atl(con):
     con = str(con)
     if con.find("d") == False:
@@ -37,13 +38,28 @@ def dispatch(values=None):
             #Perform designated function
             if(values['op'] == 'adjust'):
                 if(values['horizon'] == 'natural'):
-                    dip = ((-0.97 * math.sqrt(values['height']))/60)
+                    dip = ((-0.97 * math.sqrt(float(values['height'])))/60)
 
-                tempaltitude = math.radians(degree + minute / 60)
-                temper = (((273 + values['temperature']) - 32 ) /9 / 5)
-                refraction = (-0.00452*values['pressure']) / temper / math.tan()
-                altitude = tempaltitude + dip + refraction
-                altitude = round(altitude,2)        #doubtful
+
+                tempaltitude = (degree + minute / 60)
+                temper = int(values['temperature'])
+                ref1 = (-0.00452 * float(values['pressure']))
+                ref2 = (273 + (temper - 32) * 5/9 )
+                ref3 = math.tan(math.radians(tempaltitude))
+                ref = ref1 / ref2 / ref3
+                print  ref
+                altitude = float(tempaltitude + dip + ref)
+                nminute = str("{:.1f}".format((altitude - int(altitude)) * 60))
+                nminute = nminute.split('.')
+                inti = nminute[0].zfill(1)
+                dec = nminute[1]
+                nminute = inti + '.' + dec
+                altitude = str(int(altitude)) + 'd' + nminute
+
+
+
+                print dip
+                print altitude
 
                 values['altitude'] = altitude
                 return values    #<-------------- replace this with your implementation
