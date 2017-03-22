@@ -91,7 +91,7 @@ def dispatch(values=None):
                 values['error'] = 'op is not a legal operation'
                 return values
         else:
-            values['error'] = 'observation value is invalid'
+            values['error'] = 'observation is invalid'
             return values
 
 
