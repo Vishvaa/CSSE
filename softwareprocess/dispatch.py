@@ -37,10 +37,11 @@ def dispatch(values=None):
 
             if ('height' in values) and values['height'] != '':
                 if values['height'] < 0.0:
-                    height = values['height']
-                else:
                     values['error'] = 'Height is invalid'
                     return values
+
+                else:
+                    height = values['height']
             else:
                 height = 0
 
