@@ -43,7 +43,7 @@ def dispatch(values=None):
             else:
                 pressure = 1010
 
-            if ('temperature' in values):
+            if ('temperature' in values) and values['temperature'] != '':
                 temperature = values['temperature']
             else:
                 temperature = 72
