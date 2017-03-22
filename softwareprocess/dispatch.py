@@ -35,9 +35,13 @@ def dispatch(values=None):
         if tempaltitude != "error":
             if ('height' in values):
                 height = values['height']
-                print height
             else:
                 height = 0
+
+            if ('pressure' in values):
+                pressure = values['pressure']
+            else:
+                pressure = 1010
                 #Perform designated function
             if(values['op'] == 'adjust'):
                 if(values['horizon'] == 'natural'):
@@ -46,7 +50,7 @@ def dispatch(values=None):
 
                 tempaltitude = (degree + minute / 60)
                 temper = int(values['temperature'])
-                ref1 = (-0.00452 * float(values['pressure']))
+                ref1 = (-0.00452 * float(pressure))
                 ref2 = (273 + (temper - 32) * 5/9 )
                 ref3 = math.tan(math.radians(tempaltitude))
                 ref = ref1 / ref2 / ref3
