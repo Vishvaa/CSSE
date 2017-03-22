@@ -32,11 +32,15 @@ def dispatch(values=None):
     if values['observation'] != "":
         tempaltitude = obser2atl(values['observation'])
 
-        if values['height'] < 0.0:
-            values['error'] = 'Height is invalid'
-            return values
+
         if tempaltitude != "error":
+
+            if values['height'] < 0.0:
+                values['error'] = 'Height is invalid'
+                return values
+
             if ('height' in values) and values['height'] != '':
+                if values['height'] < 0.0:
                 height = values['height']
             else:
                 height = 0
