@@ -44,17 +44,8 @@ def dispatch(values=None):
                 if height < 0:
                     values['error'] = 'Height is invalid'
                     return values
-
-                #
-                # if values['height'] < 0:
-                #     values['error'] = 'Height is invalid'
-                #     return values
-                #
-                # else:
-                #     height = values['height']
             else:
                 height = 0
-
             if ('pressure' in values) and values['pressure'] != '':
                 pressure = values['pressure']
             else:
