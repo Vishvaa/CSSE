@@ -60,13 +60,17 @@ class dispatch(TestCase):
     def test_200_010_ShouldcalculateAltitudewithBlankHeight(self):
         param = {'observation': '45d15.2', 'op': 'adjust', 'height':''}
         expectedparam = {'altitude': '45d14.3', 'observation': '45d15.2', 'op': 'adjust','height':''}
-        self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Missing All Optional Values.")
+        self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Missing Value of height.")
 
     def test_200_020_ShouldcalculateAltitudewithBlankPressure(self):
         param = {'observation': '45d15.2', 'op': 'adjust', 'height':'', 'pressure':''}
         expectedparam = {'altitude': '45d14.3', 'observation': '45d15.2', 'op': 'adjust','height':'', 'pressure':''}
-        self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Missing All Optional Values.")
+        self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Missing Value of pressure.")
 
+    def test_200_030_ShouldcalculateAltitudewithBlankTemperature(self):
+        param = {'observation': '45d15.2', 'op': 'adjust', 'height':'', 'pressure':'','temperature':''}
+        expectedparam = {'altitude': '45d14.3', 'observation': '45d15.2', 'op': 'adjust','height':'', 'pressure':'','temperature':''}
+        self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Missing Value of temperature.")
 # Sad Path Tests
 
     # Should generate error on wrong observation input
