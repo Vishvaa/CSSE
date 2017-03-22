@@ -111,6 +111,6 @@ class dispatch(TestCase):
         self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Invalid value of Observation Degree.")
 
     def test_300_050_ShouldGenerateErrorOnWrongHeight(self):
-        param = {'observation': '10d50', 'op': 'adjust','horizon':'artifical', 'height':'6.0', 'pressure':'1010','temperature':'72'}
-        expectedparam = {'observation': '10d50', 'op': 'adjust','horizon':'artifical','height':'6.0', 'pressure':'1010','temperature':'72','error': 'observation is invalid'}
-        self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Invalid value of Observation Degree.")
+        param = {'observation': '10d50', 'op': 'adjust','horizon':'artifical', 'height':'-6.0', 'pressure':'1010','temperature':'72'}
+        expectedparam = {'observation': '10d50', 'op': 'adjust','horizon':'artifical','height':'-6.0', 'pressure':'1010','temperature':'72','error': 'Height is invalid'}
+        self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Invalid value of Height.")
