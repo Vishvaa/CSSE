@@ -87,7 +87,7 @@ class dispatch(TestCase):
     # Should generate error on wrong pressure input             Done
     # Should generate error on wrong horizon input              Done
     # Should generate error on wrong temperature input          Done
-    # Should generate error on missing mandatory information
+    # Should generate error on missing mandatory information    Done
 
     def test_300_010_ShouldGenerateErrorOnWrongObservationDegree(self):
         param = {'observation': '100d0', 'op': 'adjust','horizon':'artifical', 'height':'6.0', 'pressure':'1010','temperature':'72'}
@@ -142,6 +142,5 @@ class dispatch(TestCase):
 
     def test_300_110_ShouldGenerateErrorOnWrongInformation(self):
         param = {'observation': '10d', 'op': 'adjust','horizon':'artifical', 'height':'5', 'pressure':'1100','temperature':'-20'}
-        print dspt.dispatch(param)
-        expectedparam = {'observation': '10d50', 'op': 'adjust','horizon':'artifical','height':'5', 'pressure':'1100','temperature':'-20','error': 'Observation is invalid'}
+        expectedparam = {'observation': '10d', 'op': 'adjust','horizon':'artifical','height':'5', 'pressure':'1100','temperature':'-20','error': 'Observation is invalid'}
         self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Invalid value of Temperature.")

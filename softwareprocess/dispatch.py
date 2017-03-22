@@ -1,4 +1,3 @@
-#from math import sqrt
 import math
 def obser2atl(con):
     con = str(con)
@@ -32,11 +31,8 @@ def dispatch(values=None):
     if (not('op' in values)):
         values['error'] = 'no op is specified'
         return values
-
     if values['observation'] != "":
         tempaltitude = obser2atl(values['observation'])
-
-
         if tempaltitude != "error":
 
             if ('height' in values) and values['height'] != '':
@@ -87,8 +83,6 @@ def dispatch(values=None):
             if(values['op'] == 'adjust'):
                 if(horizon == 'natural'):
                     dip = ((-0.97 * math.sqrt(float(height)))/60)
-
-                #print horizon
                 tempaltitude = (degree + minute / 60)
                 temper = int(temperature)
                 ref1 = (-0.00452 * float(pressure))
@@ -103,12 +97,6 @@ def dispatch(values=None):
                 dec = nminute[1]
                 nminute = inti + '.' + dec
                 altitude = str(int(altitude)) + 'd' + nminute
-
-                #
-                #
-                #print dip
-                #print altitude
-
                 values['altitude'] = altitude
                 return values    #<-------------- replace this with your implementation
             elif(values['op'] == 'predict'):
@@ -123,9 +111,6 @@ def dispatch(values=None):
         else:
             values['error'] = 'Observation is invalid'
             return values
-
-
-
     else:
         values['error'] = 'Observation is missing'
         return values
