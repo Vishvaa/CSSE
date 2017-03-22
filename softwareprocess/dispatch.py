@@ -62,10 +62,10 @@ def dispatch(values=None):
                 try:
                     temperature = int(values['temperature'])
                 except:
-                    values['error'] = 'temperature is invalid'
+                    values['error'] = 'Temperature is invalid'
                     return values
                 if temperature < -20 or temperature > 120:
-                    values['error'] = 'temperature is invalid'
+                    values['error'] = 'Temperature is invalid'
                     return values
             else:
                 temperature = 72
