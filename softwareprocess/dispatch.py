@@ -59,12 +59,23 @@ def dispatch(values=None):
                 pressure = 1010
 
             if ('temperature' in values) and values['temperature'] != '':
-                temperature = values['temperature']
+                try:
+                    temperature = int(values['temperature'])
+                except:
+                    values['error'] = 'temperature is invalid'
+                    return values
+                if temperature < -19 or temperature > 1100:
+                    values['error'] = 'temperature is invalid'
+                    return values
             else:
                 temperature = 72
 
-            if ('horizon' in values) :
-                horizon = values['horizon']
+            if ('horizon' in values) and values['horizon'] != '':
+                if values['horizon'] == 'natural' or values['horizon'] == 'artifical':
+                    horizon = values['horizon']
+                else:
+                    values['error'] = 'Horizon is invalid'
+                    return values
             else:
                 horizon = "naturall"
 
