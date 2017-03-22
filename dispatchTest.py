@@ -83,7 +83,7 @@ class dispatch(TestCase):
 # Sad Path Tests
 
     # Should generate error on wrong observation input          Done
-    # Should generate error on wrong height input
+    # Should generate error on wrong height input               Done
     # Should generate error on wrong pressure input
     # Should generate error on wrong horizon input
     # Should generate error on wrong temperature input
@@ -115,8 +115,20 @@ class dispatch(TestCase):
         expectedparam = {'observation': '10d50', 'op': 'adjust','horizon':'artifical','height':'-1', 'pressure':'1010','temperature':'72','error': 'Height is invalid'}
         self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Invalid value of Height.")
 
-    def test_300_050_ShouldGenerateErrorOnWrongHeight(self):
+    def test_300_060_ShouldGenerateErrorOnWrongHeight(self):
         param = {'observation': '10d50', 'op': 'adjust','horizon':'artifical', 'height':'a', 'pressure':'1010','temperature':'72'}
         print dspt.dispatch(param)
         expectedparam = {'observation': '10d50', 'op': 'adjust','horizon':'artifical','height':'a', 'pressure':'1010','temperature':'72','error': 'Height is invalid'}
         self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Invalid value of Height.")
+
+    def test_300_070_ShouldGenerateErrorOnWrongPressure(self):
+        param = {'observation': '10d50', 'op': 'adjust','horizon':'artifical', 'height':'a', 'pressure':'10','temperature':'72'}
+        print dspt.dispatch(param)
+        expectedparam = {'observation': '10d50', 'op': 'adjust','horizon':'artifical','height':'a', 'pressure':'10','temperature':'72','error': 'Pressure is invalid'}
+        self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Invalid value of Pressure.")
+
+    def test_300_080_ShouldGenerateErrorOnWrongPressure(self):
+        param = {'observation': '10d50', 'op': 'adjust','horizon':'artifical', 'height':'a', 'pressure':'10','temperature':'72'}
+        print dspt.dispatch(param)
+        expectedparam = {'observation': '10d50', 'op': 'adjust','horizon':'artifical','height':'a', 'pressure':'10','temperature':'72','error': 'Pressure is invalid'}
+        self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Invalid value of Pressure.")
