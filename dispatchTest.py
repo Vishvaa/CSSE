@@ -77,7 +77,7 @@ class dispatch(TestCase):
 
     def test_200_040_ShouldcalculateAltitudewithBlankHorizon(self):
         param = {'observation': '10d0', 'op': 'adjust','horizon':'artifical', 'height':'6.0', 'pressure':'1010','temperature':'72'}
-        expectedparam = {'altitude': '9d55.7', 'observation': '10d0', 'op': 'adjust','horizon':'artifical','height':'6.0', 'pressure':'1010','temperature':'72'}
+        expectedparam = {'altitude': '9d54.7', 'observation': '10d0', 'op': 'adjust','horizon':'artifical','height':'6.0', 'pressure':'1010','temperature':'72'}
         self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Missing Value of horizon.")
         print dspt.dispatch(param)
 # Sad Path Tests
