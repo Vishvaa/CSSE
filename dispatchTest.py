@@ -26,7 +26,6 @@ class dispatch(TestCase):
 
     def test_100_010_ShouldCalculateAltitudeWithMandatoryInformation(self):
         param = {'observation': '45d15.2', 'height': '6.0', 'pressure': '100', 'horizon': 'natural', 'op': 'adjust', 'temperature': '-20',}
-        print dspt.dispatch(param)
         expectedparam = {'altitude': '45d12.7', 'observation': '45d15.2', 'height': '6.0', 'pressure': '100', 'horizon': 'natural', 'op': 'adjust', 'temperature': '-20'}
         self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with All Mandatory Information Provided.")
 
@@ -92,23 +91,23 @@ class dispatch(TestCase):
 
     def test_300_010_ShouldGenerateErrorOnWrongObservationDegree(self):
         param = {'observation': '100d0', 'op': 'adjust','horizon':'artifical', 'height':'6.0', 'pressure':'1010','temperature':'72'}
-        expectedparam = {'observation': '100d0', 'op': 'adjust','horizon':'artifical','height':'6.0', 'pressure':'1010','temperature':'72','error': 'observation is invalid'}
+        expectedparam = {'observation': '100d0', 'op': 'adjust','horizon':'artifical','height':'6.0', 'pressure':'1010','temperature':'72','error': 'Observation is invalid'}
         self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Invalid value of Observation Degree.")
 
     def test_300_020_ShouldGenerateErrorOnWrongObservationDegree(self):
         param = {'observation': '-10d0', 'op': 'adjust','horizon':'artifical', 'height':'6.0', 'pressure':'1010','temperature':'72'}
-        expectedparam = {'observation': '-10d0', 'op': 'adjust','horizon':'artifical','height':'6.0', 'pressure':'1010','temperature':'72','error': 'observation is invalid'}
+        expectedparam = {'observation': '-10d0', 'op': 'adjust','horizon':'artifical','height':'6.0', 'pressure':'1010','temperature':'72','error': 'Observation is invalid'}
         self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Invalid value of Observation Degree.")
 
     def test_300_030_ShouldGenerateErrorOnWrongObservationDegree(self):
         param = {'observation': '10d60.1', 'op': 'adjust','horizon':'artifical', 'height':'6.0', 'pressure':'1010','temperature':'72'}
-        expectedparam = {'observation': '10d60.1', 'op': 'adjust','horizon':'artifical','height':'6.0', 'pressure':'1010','temperature':'72','error': 'observation is invalid'}
+        expectedparam = {'observation': '10d60.1', 'op': 'adjust','horizon':'artifical','height':'6.0', 'pressure':'1010','temperature':'72','error': 'Observation is invalid'}
         self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Invalid value of Observation Degree.")
 
 
     def test_300_040_ShouldGenerateErrorOnWrongObservationDegree(self):
         param = {'observation': '10d-0.1', 'op': 'adjust','horizon':'artifical', 'height':'6', 'pressure':'1010','temperature':'72'}
-        expectedparam = {'observation': '10d-0.1', 'op': 'adjust','horizon':'artifical','height':'6', 'pressure':'1010','temperature':'72','error': 'observation is invalid'}
+        expectedparam = {'observation': '10d-0.1', 'op': 'adjust','horizon':'artifical','height':'6', 'pressure':'1010','temperature':'72','error': 'Observation is invalid'}
         self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Invalid value of Observation Degree.")
 
     def test_300_050_ShouldGenerateErrorOnWrongHeight(self):

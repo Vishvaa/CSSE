@@ -6,12 +6,16 @@ def obser2atl(con):
         con = "error"
         return con
     else:
-        degnmin = con.split("d")
-        global degree
-        global minute
-        degree = int(degnmin[0])
-        minute = float(degnmin[1])
-        minute = round(minute,1)
+        try:
+            degnmin = con.split("d")
+            global degree
+            global minute
+            degree = int(degnmin[0])
+            minute = float(degnmin[1])
+            minute = round(minute,1)
+        except:
+            con = 'error'
+            return con
         if degree < 0 or degree > 90 or minute < 0.0 or minute > 60.0:
             con = "error"
             return con
@@ -117,11 +121,11 @@ def dispatch(values=None):
                 values['error'] = 'op is not a legal operation'
                 return values
         else:
-            values['error'] = 'observation is invalid'
+            values['error'] = 'Observation is invalid'
             return values
 
 
 
     else:
-        values['error'] = 'observation is missing'
+        values['error'] = 'Observation is missing'
         return values
