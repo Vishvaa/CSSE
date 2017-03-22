@@ -38,7 +38,7 @@ def dispatch(values=None):
             else:
                 height = 0
 
-            if ('pressure' in values):
+            if ('pressure' in values) and values['pressure'] != '':
                 pressure = values['pressure']
             else:
                 pressure = 1010
