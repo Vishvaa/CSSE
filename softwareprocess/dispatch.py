@@ -35,13 +35,12 @@ def dispatch(values=None):
 
         if tempaltitude != "error":
 
-            if values['height'] < 0.0:
-                values['error'] = 'Height is invalid'
-                return values
-
             if ('height' in values) and values['height'] != '':
                 if values['height'] < 0.0:
-                height = values['height']
+                    height = values['height']
+                else:
+                    values['error'] = 'Height is invalid'
+                    return values
             else:
                 height = 0
 
