@@ -58,7 +58,7 @@ def dispatch(values=None):
                 if(horizon == 'natural'):
                     dip = ((-0.97 * math.sqrt(float(height)))/60)
 
-                print horizon
+                #print horizon
                 tempaltitude = (degree + minute / 60)
                 temper = int(temperature)
                 ref1 = (-0.00452 * float(pressure))
@@ -76,7 +76,7 @@ def dispatch(values=None):
 
                 #
                 #
-                print dip
+                #print dip
                 # print altitude
 
                 values['altitude'] = altitude

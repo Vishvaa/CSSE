@@ -16,7 +16,7 @@ class dispatch(TestCase):
     # Should calculate altitude on missing horizon                  Done
     # Should calculate altitude from observation                    Done
     # Should pass with extra info provided                          Done
-    
+
 
 
     # Should calculate Altitude with missing value of height        Done
@@ -50,9 +50,10 @@ class dispatch(TestCase):
         self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Missing Temperature.")
 
     def test_100_060_ShouldcalculateAltitudewithoutHorizon(self):
-        param = {'observation': '45d15.2', 'op': 'adjust'}
-        expectedparam = {'altitude': '45d14.3', 'observation': '45d15.2', 'op': 'adjust'}
+        param = {'observation': '42d0.0', 'op': 'adjust'}
+        expectedparam = {'altitude': '41d59.0', 'observation': '42d0.0', 'op': 'adjust'}
         self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Missing Horizon.")
+        #print dspt.dispatch(param)
 
     def test_100_070_ShouldcalculateAltitudewithoutAllOptionalValues(self):
         param = {'observation': '45d15.2', 'op': 'adjust'}
