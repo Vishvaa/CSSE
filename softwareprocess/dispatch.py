@@ -42,6 +42,11 @@ def dispatch(values=None):
                 pressure = values['pressure']
             else:
                 pressure = 1010
+
+            if ('temperature' in values):
+                temperature = values['temperature']
+            else:
+                temperature = 72
                 #Perform designated function
             if(values['op'] == 'adjust'):
                 if(values['horizon'] == 'natural'):
@@ -49,7 +54,7 @@ def dispatch(values=None):
 
 
                 tempaltitude = (degree + minute / 60)
-                temper = int(values['temperature'])
+                temper = int(temperature)
                 ref1 = (-0.00452 * float(pressure))
                 ref2 = (273 + (temper - 32) * 5/9 )
                 ref3 = math.tan(math.radians(tempaltitude))
