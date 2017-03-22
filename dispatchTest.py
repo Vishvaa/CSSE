@@ -25,7 +25,6 @@ class dispatch(TestCase):
     def test_100_020_ShouldcalculateAltitudewithoutHeight(self):
         param = {'observation': '45d15.2', 'pressure': '1010', 'horizon': 'natural', 'op': 'adjust', 'temperature': '71'}
         expectedparam = {'altitude': '45d14.3', 'observation': '45d15.2', 'pressure': '1010', 'horizon': 'natural', 'op': 'adjust', 'temperature': '71'}
-        print dspt.dispatch(param)
         self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Missing Height.")
 
     def test_100_030_ShouldCalculateAltitudeWithMandatoryInformation(self):
@@ -33,7 +32,10 @@ class dispatch(TestCase):
         expectedparam = {'altitude': '45d11.9', 'observation': '45d15.2', 'height': '6.0', 'pressure': '1010', 'horizon': 'natural', 'op': 'adjust', 'temperature': '71','extra':'extra'}
         self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Extra Information Provided.")
 
-
+    def test_100_040_ShouldcalculateAltitudewithoutPressure(self):
+        param = {'observation': '45d15.2', 'horizon': 'natural', 'op': 'adjust', 'temperature': '71'}
+        expectedparam = {'altitude': '45d14.3', 'observation': '45d15.2', 'horizon': 'natural', 'op': 'adjust', 'temperature': '71'}
+        self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Missing Pressure.")
 
 
 # Sad Path Tests
