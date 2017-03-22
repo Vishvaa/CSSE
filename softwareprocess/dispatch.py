@@ -64,7 +64,7 @@ def dispatch(values=None):
                 except:
                     values['error'] = 'temperature is invalid'
                     return values
-                if temperature < -21 or temperature > 121:
+                if temperature < -20 or temperature > 120:
                     values['error'] = 'temperature is invalid'
                     return values
             else:

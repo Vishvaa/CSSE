@@ -25,8 +25,9 @@ class dispatch(TestCase):
     # Should calculate Altitude with missing value of temperature   Done
 
     def test_100_010_ShouldCalculateAltitudeWithMandatoryInformation(self):
-        param = {'observation': '45d15.2', 'height': '6.0', 'pressure': '1010', 'horizon': 'natural', 'op': 'adjust', 'temperature': '71',}
-        expectedparam = {'altitude': '45d11.9', 'observation': '45d15.2', 'height': '6.0', 'pressure': '1010', 'horizon': 'natural', 'op': 'adjust', 'temperature': '71'}
+        param = {'observation': '45d15.2', 'height': '6.0', 'pressure': '100', 'horizon': 'natural', 'op': 'adjust', 'temperature': '-20',}
+        print dspt.dispatch(param)
+        expectedparam = {'altitude': '45d12.7', 'observation': '45d15.2', 'height': '6.0', 'pressure': '100', 'horizon': 'natural', 'op': 'adjust', 'temperature': '-20'}
         self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with All Mandatory Information Provided.")
 
     def test_100_020_ShouldcalculateAltitudewithoutHeight(self):
@@ -121,9 +122,9 @@ class dispatch(TestCase):
         self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Invalid value of Height.")
 
     def test_300_070_ShouldGenerateErrorOnWrongPressure(self):
-        param = {'observation': '10d50', 'op': 'adjust','horizon':'artifical', 'height':'5', 'pressure':'10','temperature':'72'}
+        param = {'observation': '10d50', 'op': 'adjust','horizon':'artifical', 'height':'5', 'pressure':'25','temperature':'72'}
         print dspt.dispatch(param)
-        expectedparam = {'observation': '10d50', 'op': 'adjust','horizon':'artifical','height':'5', 'pressure':'10','temperature':'72','error': 'Pressure is invalid'}
+        expectedparam = {'observation': '10d50', 'op': 'adjust','horizon':'artifical','height':'5', 'pressure':'25','temperature':'72','error': 'Pressure is invalid'}
         self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Invalid value of Pressure.")
 
     def test_300_080_ShouldGenerateErrorOnWrongPressure(self):
@@ -137,7 +138,7 @@ class dispatch(TestCase):
         self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Invalid value of Pressure.")
 
     def test_300_100_ShouldGenerateErrorOnWrongTemperature(self):
-        param = {'observation': '10d50', 'op': 'adjust','horizon':'artifical', 'height':'5', 'pressure':'1100','temperature':'72'}
+        param = {'observation': '10d50', 'op': 'adjust','horizon':'artifical', 'height':'5', 'pressure':'1100','temperature':'-20'}
         print dspt.dispatch(param)
-        expectedparam = {'observation': '10d50', 'op': 'adjust','horizon':'artifical','height':'5', 'pressure':'1111','temperature':'72','error': 'Pressure is invalid'}
-        self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Invalid value of Pressure.")
+        expectedparam = {'observation': '10d50', 'op': 'adjust','horizon':'artifical','height':'5', 'pressure':'1100','temperature':'-20','error': 'Temperature is invalid'}
+        self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Invalid value of Temperature.")
