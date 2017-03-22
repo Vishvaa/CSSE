@@ -12,11 +12,11 @@ def obser2atl(con):
         degree = int(degnmin[0])
         minute = float(degnmin[1])
         minute = round(minute,1)
-        # if degree < 0 or degree > 90 or minute < 0.0 or minute > 60.0:
-        #     con = "error"
-        #     return con
-        # else:
-        #     return con
+        if degree < 0 or degree > 90 or minute < 0.0 or minute > 60.0:
+            con = "error"
+            return con
+        else:
+            return con
 
 def dispatch(values=None):
     dip = 0
