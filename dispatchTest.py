@@ -84,7 +84,7 @@ class dispatch(TestCase):
 
     # Should generate error on wrong observation input          Done
     # Should generate error on wrong height input               Done
-    # Should generate error on wrong pressure input
+    # Should generate error on wrong pressure input             Done
     # Should generate error on wrong horizon input
     # Should generate error on wrong temperature input
     # Should generate error on missing mandatory information
@@ -124,6 +124,18 @@ class dispatch(TestCase):
         param = {'observation': '10d50', 'op': 'adjust','horizon':'artifical', 'height':'5', 'pressure':'10','temperature':'72'}
         print dspt.dispatch(param)
         expectedparam = {'observation': '10d50', 'op': 'adjust','horizon':'artifical','height':'5', 'pressure':'10','temperature':'72','error': 'Pressure is invalid'}
+        self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Invalid value of Pressure.")
+
+    def test_300_080_ShouldGenerateErrorOnWrongPressure(self):
+        param = {'observation': '10d50', 'op': 'adjust','horizon':'artifical', 'height':'5', 'pressure':'1111','temperature':'72'}
+        print dspt.dispatch(param)
+        expectedparam = {'observation': '10d50', 'op': 'adjust','horizon':'artifical','height':'5', 'pressure':'1111','temperature':'72','error': 'Pressure is invalid'}
+        self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Invalid value of Pressure.")
+
+    def test_300_090_ShouldGenerateErrorOnWrongHorizon(self):
+        param = {'observation': '10d50', 'op': 'adjust','horizon':'awgsdh', 'height':'5', 'pressure':'1100','temperature':'72'}
+        print dspt.dispatch(param)
+        expectedparam = {'observation': '10d50', 'op': 'adjust','horizon':'awgsdh','height':'5', 'pressure':'1100','temperature':'72','error': 'Horizon is invalid'}
         self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Invalid value of Pressure.")
 
     def test_300_080_ShouldGenerateErrorOnWrongPressure(self):
