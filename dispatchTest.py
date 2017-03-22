@@ -13,7 +13,7 @@ class dispatch(TestCase):
     # Should calculate altitude on missing height               Done
     # Should calculate altitude on missing pressure             Done
     # Should calculate altitude on missing temperature          Done
-    # Should calculate altitude on missing horizon
+    # Should calculate altitude on missing horizon              Done
     # Should calculate altitude from observation
     # Should pass with extra info provided                      Done
     #

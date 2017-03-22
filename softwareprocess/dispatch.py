@@ -47,9 +47,15 @@ def dispatch(values=None):
                 temperature = values['temperature']
             else:
                 temperature = 72
+
+            if ('horizon' in values):
+                horizon = values['horizon']
+            else:
+                horizon = "natural"
+
                 #Perform designated function
             if(values['op'] == 'adjust'):
-                if(values['horizon'] == 'natural'):
+                if(horizon == 'natural'):
                     dip = ((-0.97 * math.sqrt(float(height)))/60)
 
 
