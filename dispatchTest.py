@@ -52,6 +52,11 @@ class dispatch(TestCase):
         expectedparam = {'altitude': '45d14.3', 'observation': '45d15.2', 'op': 'adjust'}
         self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Missing Horizon.")
 
+    def test_100_070_ShouldcalculateAltitudewithoutAllOptionalValues(self):
+        param = {'observation': '45d15.2', 'op': 'adjust'}
+        expectedparam = {'altitude': '45d14.3', 'observation': '45d15.2', 'op': 'adjust'}
+        self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Missing All Optional Values.")
+
 
 # Sad Path Tests
 
