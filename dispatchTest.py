@@ -71,6 +71,12 @@ class dispatch(TestCase):
         param = {'observation': '45d15.2', 'op': 'adjust', 'height':'', 'pressure':'','temperature':''}
         expectedparam = {'altitude': '45d14.3', 'observation': '45d15.2', 'op': 'adjust','height':'', 'pressure':'','temperature':''}
         self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Missing Value of temperature.")
+
+    def test_200_040_ShouldcalculateAltitudewithBlankHorizon(self):
+        param = {'observation': '45d15.2', 'op': 'adjust','horizon':'', 'height':'', 'pressure':'','temperature':''}
+        expectedparam = {'altitude': '45d14.3', 'observation': '45d15.2', 'op': 'adjust','height':'', 'pressure':'','temperature':'','horizon':''}
+        self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Missing Value of horizon.")
+
 # Sad Path Tests
 
     # Should generate error on wrong observation input
