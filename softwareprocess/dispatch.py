@@ -1,5 +1,5 @@
-from math import sqrt
-
+#from math import sqrt
+import math
 def obser2atl(con):
     con = str(con)
     if con.find("d") == False:
@@ -26,20 +26,26 @@ def dispatch(values=None):
     if(not(isinstance(values,dict))):
         return {'error': 'parameter is not a dictionary'}
     if (not('op' in values)):
-        values['error'] = 'no op  is specified'
+        values['error'] = 'no op is specified'
         return values
 
     if values['observation'] != "":
         tempaltitude = obser2atl(values['observation'])
 
         if tempaltitude != "error":
+
             #Perform designated function
             if(values['op'] == 'adjust'):
                 if(values['horizon'] == 'natural'):
-                    dip = ((-0.97 * sqrt(values['height']))/60)
-                    temper = (values['temperature'] - 32 ) /9 / 5
+                    dip = ((-0.97 * math.sqrt(values['height']))/60)
 
-                refraction = (-0.00452*values['pressure']/ (273))
+                tempaltitude = math.radians(degree + minute / 60)
+                temper = (((273 + values['temperature']) - 32 ) /9 / 5)
+                refraction = (-0.00452*values['pressure']) / temper / math.tan()
+                altitude = tempaltitude + dip + refraction
+                altitude = round(altitude,2)        #doubtful
+
+                values['altitude'] = altitude
                 return values    #<-------------- replace this with your implementation
             elif(values['op'] == 'predict'):
                 return values    #This calculation is stubbed out
