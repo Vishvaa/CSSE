@@ -12,10 +12,15 @@ class dispatch(TestCase):
     # Should calculate altitude on all the values provided      Done
     # Should calculate altitude on missing height               Done
     # Should calculate altitude on missing pressure             Done
-    # Should calculate altitude on missing temperature
+    # Should calculate altitude on missing temperature          Done
     # Should calculate altitude on missing horizon
     # Should calculate altitude from observation
     # Should pass with extra info provided                      Done
+    #
+    # Should calculate Altitude with missing value of height
+    # Should calculate Altitude with missing value of pressure
+    # Should calculate Altitude with missing value of horizon
+    # Should calculate Altitude with missing value of temperature
 
     def test_100_010_ShouldCalculateAltitudeWithMandatoryInformation(self):
         param = {'observation': '45d15.2', 'height': '6.0', 'pressure': '1010', 'horizon': 'natural', 'op': 'adjust', 'temperature': '71',}
@@ -37,11 +42,15 @@ class dispatch(TestCase):
         expectedparam = {'altitude': '45d14.3', 'observation': '45d15.2', 'horizon': 'natural', 'op': 'adjust', 'temperature': '71'}
         self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Missing Pressure.")
 
-    def test_100_040_ShouldcalculateAltitudewithoutPressure(self):
+    def test_100_050_ShouldcalculateAltitudewithoutTemperature(self):
         param = {'observation': '45d15.2', 'horizon': 'natural', 'op': 'adjust'}
         expectedparam = {'altitude': '45d14.3', 'observation': '45d15.2', 'horizon': 'natural', 'op': 'adjust'}
         self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Missing Temperature.")
 
+    def test_100_060_ShouldcalculateAltitudewithoutHorizon(self):
+        param = {'observation': '45d15.2', 'op': 'adjust'}
+        expectedparam = {'altitude': '45d14.3', 'observation': '45d15.2', 'op': 'adjust'}
+        self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Missing Horizon.")
 
 
 # Sad Path Tests
