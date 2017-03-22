@@ -47,7 +47,14 @@ def dispatch(values=None):
             else:
                 height = 0
             if ('pressure' in values) and values['pressure'] != '':
-                pressure = values['pressure']
+                try:
+                    pressure = int(values['pressure'])
+                except:
+                    values['error'] = 'Pressure is invalid'
+                    return values
+                if pressure < 100 or pressure > 1100:
+                    values['error'] = 'Pressure is invalid'
+                    return values
             else:
                 pressure = 1010
 
