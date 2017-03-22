@@ -79,7 +79,7 @@ class dispatch(TestCase):
         param = {'observation': '10d0', 'op': 'adjust','horizon':'artifical', 'height':'6.0', 'pressure':'1010','temperature':'72'}
         expectedparam = {'altitude': '9d54.7', 'observation': '10d0', 'op': 'adjust','horizon':'artifical','height':'6.0', 'pressure':'1010','temperature':'72'}
         self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Missing Value of horizon.")
-        print dspt.dispatch(param)
+
 # Sad Path Tests
 
     # Should generate error on wrong observation input
@@ -91,7 +91,8 @@ class dispatch(TestCase):
 
     def test_300_010_ShouldGenerateErrorOnWrongObservationDegree(self):
         param = {'observation': '100d0', 'op': 'adjust','horizon':'artifical', 'height':'6.0', 'pressure':'1010','temperature':'72'}
-        expectedparam = {'altitude':'100d0.2','observation': '100d0', 'op': 'adjust','horizon':'artifical','height':'6.0', 'pressure':'1010','temperature':'72'}
+        print dspt.dispatch(param)
+        expectedparam = {'observation': '100d0', 'op': 'adjust','horizon':'artifical','height':'6.0', 'pressure':'1010','temperature':'72','error': 'observation is invalid'}
         self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Invalid value of Observation Degree.")
-
+        print dspt.dispatch(param)
 
