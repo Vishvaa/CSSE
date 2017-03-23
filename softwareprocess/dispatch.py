@@ -71,7 +71,7 @@ def dispatch(values=None):
                 temperature = 72
 
             if ('horizon' in values) and values['horizon'] != '':
-                if values['horizon'] == 'natural' or values['horizon'] == 'artifical':
+                if values['horizon'] == 'natural' or values['horizon'] == 'artificial':
                     horizon = values['horizon']
                 else:
                     values['error'] = 'Horizon is invalid'
