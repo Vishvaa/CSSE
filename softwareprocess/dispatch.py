@@ -30,8 +30,6 @@ def dispatch(values=None):
         return {'error': 'parameter is not a dictionary'}
     if 'error' in values:
         del values['error']
-        print '###########################################################################################################'
-        print values
         return values
     if (not('op' in values)):
         values['error'] = 'no op is specified'
@@ -159,6 +157,7 @@ def dispatch(values=None):
         values['altitude'] = altitude
         return values    #<-------------- replace this with your implementation
     elif(values['op'] == 'predict'):
+
         return values    #This calculation is stubbed out
     elif(values['op'] == 'correct'):
         return values    #This calculation is stubbed out

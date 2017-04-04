@@ -1,146 +1,274 @@
-from unittest import TestCase
-import urllib
-import softwareprocess.dispatch as dspt
+from __future__ import print_function
+import unittest
+
+import softwareprocess.dispatch as DP
+
+class MyTestCase(unittest.TestCase):
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
+    # -----------------------------------------------------------------------
+    # ---- Acceptance Tests
+    # 100 dispatch operation
+    #   Happy path analysis:
+    #        values:      mandatory
+    #                     dictionary
+    #                     Operations:   {'op':'adjust'}
+    #                                   {'op':'predict'}
+    #                                   {'op':'correct'}
+    #                                   {'op':'locate'}
+    #   Sad path analysis:
+    #        values:
+    #                     no op specified             values={}
+    #                        -- return {'error':'no op  is specified'}
+    #                     contain 'error' as a key      values={5d04.9', 'height': '6.0', 'pressure': '1010',
+    #                                                           'horizon': 'artificial', 'temperature': '72'
+    #                                                           'error':'no op is specified'}'
+    #                        -- return values without error as a key and without its values
+    #                     not-dictionary                values=42
+    #                        -- return {'error':'parameter is not a dictionary'}
+    #                     not legal operation           values={'op': 'unknown'}
+    #                        -- return {'error':'op is not a legal operation'}
+    #                     missing dictionary            dispatch()
+    #                        -- return {'error':'dictionary is missing'}
+    # Happy path
+    # def test100_010ShouldReturnUnchangedValuesWithOperationAdjust(self):
+    #    values = {'op':'adjust'}
+    #    self.assertDictEqual(DP.dispatch(values), values)
+
+    def test100_010ShouldReturnUnchangedValuesWithOperationPredict(self):
+        values = {'op': 'predict'}
+        self.assertDictEqual(DP.dispatch(values), values)
+
+    def test100_020ShouldReturnUnchangedValuesWithOperationCorrect(self):
+        values = {'op': 'correct'}
+        self.assertDictEqual(DP.dispatch(values), values)
+
+    def test100_030ShouldReturnUnchangedValuesWithOperationLocate(self):
+        values = {'op': 'locate'}
+        self.assertDictEqual(DP.dispatch(values), values)
+
+    # Sad path
+    def test100_910_ShouldReturnValuesWithErrorKeyWhenNoOpSpecified(self):
+        values = {}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test100_920_ShouldReturnValuesWithoutErrorKeyWhenValuesHasDictionartyElementErrorAsKey(self):
+        values ={'observation': '15d04.9', 'height': '6.0', 'pressure': '1010', 'horizon': 'artificial',
+                 'temperature': '72', 'error': 'no op is specified'}
+        expectedDictionary = {'observation': '15d04.9', 'height': '6.0', 'pressure': '1010', 'horizon': 'artificial',
+                              'temperature': '72'}
+
+        self.assertDictEqual(DP.dispatch(values), expectedDictionary)
+
+    def test100_930ShouldReturnValuesWithErrorWhenParameterIsNotADictionary(self):
+        values = 42
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test100_940ShouldReturnValuesWithErrorWhenOpNotALegalOperation(self):
+        values = {'op': 'unknown'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
 
 
-class dispatch(TestCase):
-    # def setUpClass(cls):
-    #     cls.errorDict = {'error':'true'}
+    def test100_950ShouldReturnValuesWithErrorWhenDictionaryMissing(self):
+        self.assertTrue(DP.dispatch().has_key("error"), True)
 
-# Happy Path tests
+    # -----------------------------------------------------------------------
+    # ---- Acceptance Tests
+    # 200 operation {'op': 'adjust'}
+    #    Happy path analysis:
+    #        observation: mandatory string in the form of xdy.y
+    #                     x : is degree portion of the altitude
+    #                         positive integer  where 0<=x<90
+    #                         low bound x=0
+    #                         high bound x=89
+    #                     d : character that is used to separate degrees from minutes
+    #                     y : minutes
+    #                         positive floating point where 0.0<=y<60.0
+    #                         low bound  y=0
+    #                         high bound y=59.9
+    #        height:      optional string
+    #                     numerical value(in feet) where height>0
+    #                     low bound      height=0
+    #                     missing height height=0
+    #        temperature: Temperature (in degrees F)
+    #                     optional string
+    #                     integer where -20<=temperature<=120
+    #                     low bound      temperature = -20
+    #                     high bound     temperature = 120
+    #                     if missing     temperature = 72
+    #        pressure:    Barometric pressure(in mbar) at the time observation
+    #                     optional string
+    #                     integer where 100<=pressure<=1100
+    #                     low bound      pressure = 100
+    #                     high bound     pressure = 1100
+    #                     if missing     pressure = 1010
+    #        horizon:     what the observed altitude is relative to
+    #                     optional case-insensitive strings
+    #                     horizon ="artificial" or horizon="natural
+    #                     if missing     horizon = "natural"
+    #
+    #
+    #   Calculation analysis:
+    #       dip:
+    #                   if the observation is relative to a natural horizon:
+    #                       dip = ( -0.97 * sqrt( height ) ) / 60
+    #                   else:
+    #                       dip = 0
+    #       refraction:
+    #                   refraction=(-0.00452*pressure) / (273+convert_to_celsius(temperature))/tangent(altitude)
+    #       altitude:
+    #                   altitude = observation + dip + refraction
+    #                   round altitude to the nearest 0.1 arc-minute
+    #                   convert altitude to a string having the format xdyy.y where
+    #                           x:   degree portion of the altitude
+    #                                integer                 -90<x<90
+    #                                low bound               x=-89
+    #                                high bound              x=89
+    #                           d:   character
+    #                           y.y: positive floating point    0.0<=y<60.0
+    #                                low bound             y=0.0
+    #                                high bound            y=59.9
+    #                                formatted with two digits to the left of the decimal point
+    #                                               one digit to the right
+    #
+    #    Sad path analysis:
+    #        values     : if values = {'op': 'adjust'}:
+    #                             return {'error':'mandatory information is missing'}
+    #        observation: not in the form of xdy.y        observation="abc"
+    #                     missing observation
+    #                     x:      non-int x               x="abc"
+    #                             out-of-bounds x         x=-1; x=90
+    #                             missing x
+    #                             -- add values['error'] = diagnostic string to the dictionary
+    #                                return values
+    #                     y:      non-floating point y    y="abc"
+    #                             out-of-bounds x         y=-1; y=60
+    #                             missing y
+    #                             -- add values['error'] = diagnostic string to the dictionary
+    #                                return values
+    #        height:      out-of-bounds height            height=-1
+    #                     non-int height                  height="a"
+    #                     -- add values['error'] = diagnostic string to the dictionary
+    #                                return values
+    #        temperature: non-int temperature             temperature="ab"
+    #                     out-of-bounds temperature       temperature=-21; temperature=121
+    #                     -- add values['error'] = diagnostic string to the dictionary
+    #                                return values
+    #        pressure:    non-int pressure                pressure="a"
+    #                     out-of-bounds pressure          pressure=99; pressure 1101
+    #                     -- add values['error'] = diagnostic string to the dictionary
+    #                                return values
+    #        altitude:    already exists in input dict    return values['error'] = diagnostic string
+    #
 
-    # Should calculate altitude on all the values provided          Done
-    # Should calculate altitude on missing height                   Done
-    # Should calculate altitude on missing pressure                 Done
-    # Should calculate altitude on missing temperature              Done
-    # Should calculate altitude on missing horizon                  Done
-    # Should calculate altitude from observation                    Done
-    # Should pass with extra info provided                          Done
+    # sad path
+    def test200_910ShouldReturnErrorIfMandatoryInformationIsMissing(self):
+        values = {'op': 'adjust'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test200_920ShouldReturnErrorWhenObservationIsIncorrectFormat(self):
+        values = {'observation': 'abc', 'height': '6', 'pressure': '1010', 'horizon': 'natural', 'op': 'adjust',
+                  'temperature': '71'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test200_930ShouldReturnErrorWhenDegreeInObservationGreaterThan90(self):
+        values = {'observation': '101d15.2', 'height': '6', 'pressure': '1010', 'horizon': 'natural', 'op': 'adjust',
+                  'temperature': '71'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test200_940ShouldReturnErrorWhenDegreeInObservationLessThan0(self):
+            values = {'observation': '-12d15.2', 'height': '6', 'pressure': '1010', 'horizon': 'natural',
+                      'op': 'adjust',
+                      'temperature': '71'}
+            self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test200_950ShouldReturnErrorWhenHeightNotNumericalValue(self):
+        values = {'observation': '89d15.2', 'height': 'a', 'pressure': '1010', 'horizon': 'natural', 'op': 'adjust',
+                  'temperature': '71'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test200_960ShouldReturnErrorWhenHeightLessThan0(self):
+        values = {'observation': '89d15.2', 'height': '-1', 'pressure': '1010', 'horizon': 'natural', 'op': 'adjust',
+                  'temperature': '71'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test200_970ShouldReturnErrorWhenTempNotANumericalValue(self):
+        values = {'observation': '89d15.2', 'height': '10', 'pressure': '1010', 'horizon': 'natural', 'op': 'adjust',
+                  'temperature': 'ab'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test200_980ShouldReturnErrorWhenTempLTMinus20(self):
+        values = {'observation': '89d15.2', 'height': '10', 'pressure': '1010', 'horizon': 'natural', 'op': 'adjust',
+                  'temperature': '-21'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test200_990ShouldReturnErrorWhenTempGEMinus120(self):
+        values = {'observation': '89d15.2', 'height': '10', 'pressure': '1010', 'horizon': 'natural', 'op': 'adjust',
+                  'temperature': '121'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test200_1000ShouldReturnErrorWhenPressureNotANumericalValue(self):
+        values = {'observation': '89d15.2', 'height': '10', 'pressure': 'aa', 'horizon': 'natural', 'op': 'adjust',
+                  'temperature': '72'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test200_1010ShouldReturnErrorWhenPressureLT100(self):
+        values = {'observation': '89d15.2', 'height': '10', 'pressure': '90', 'horizon': 'natural', 'op': 'adjust',
+                  'temperature': '72'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test200_1020ShouldReturnErrorWhenPressureGT1100(self):
+        values = {'observation': '89d15.2', 'height': '10', 'pressure': '1120', 'horizon': 'natural', 'op': 'adjust',
+                  'temperature': '72'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test200_1030ShouldReturnErrorWhenHorizonNotArtificalNorNatural(self):
+        values = {'observation': '89d15.2', 'height': '10', 'pressure': '1010', 'horizon': 'abc', 'op': 'adjust',
+                  'temperature': '72'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test200_1040ShouldReturnErrorWhenHorizonNotString(self):
+        values = {'observation': '89d15.2', 'height': '10', 'pressure': '1010', 'horizon': '45', 'op': 'adjust',
+                  'temperature': '72'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test200_1050ShouldReturnErrorWhenAltitudeInInputDictionary(self):
+        values = {'observation': '89d15.2', 'height': '10', 'pressure': '1010', 'horizon': 'natural', 'op': 'adjust',
+                  'temperature': '72', 'altitude':'29d59.9'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+
+    # Happy Path
+    def test200_110ShouldCalculateAltitude(self):
+        values = {'observation': '30d1.5', 'height': '19.0', 'pressure': '1000', 'horizon': 'artificial', 'op': 'adjust', 'temperature': '85'}
+        expectedDictionary = {'altitude':'29d59.9', 'observation': '30d1.5', 'height': '19.0', 'pressure': '1000', 'horizon': 'artificial', 'op': 'adjust', 'temperature': '85'}
+        self.assertDictEqual(DP.dispatch(values), expectedDictionary)
+
+    def test200_120ShouldCalculateAltitudeWithDefaultValue(self):
+        values = {'observation': '42d0.0',  'op': 'adjust'}
+        expectedDictionary = {'altitude':'41d59.0', 'observation': '42d0.0',  'op': 'adjust'}
+        self.assertDictEqual(DP.dispatch(values), expectedDictionary)
+
+    def test200_130ShouldCalculateAltitudeWithExtraKey(self):
+        values = {'observation': '42d0.0',  'op': 'adjust', 'extraKey':'ignore'}
+        expectedDictionary = {'altitude':'41d59.0', 'observation': '42d0.0',  'op': 'adjust', 'extraKey':'ignore'}
+        self.assertDictEqual(DP.dispatch(values), expectedDictionary)
 
 
 
-    # Should calculate Altitude with missing value of height        Done
-    # Should calculate Altitude with missing value of pressure      Done
-    # Should calculate Altitude with missing value of horizon       Done
-    # Should calculate Altitude with missing value of temperature   Done
-
-    def test_100_010_ShouldCalculateAltitudeWithMandatoryInformation(self):
-        param = {'observation': '45d15.2', 'height': '6.0', 'pressure': '100', 'horizon': 'natural', 'op': 'adjust', 'temperature': '-20',}
-        expectedparam = {'altitude': '45d12.7', 'observation': '45d15.2', 'height': '6.0', 'pressure': '100', 'horizon': 'natural', 'op': 'adjust', 'temperature': '-20'}
-        self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with All Mandatory Information Provided.")
-
-    def test_100_020_ShouldcalculateAltitudewithoutHeight(self):
-        param = {'observation': '45d15.2', 'pressure': '1010', 'horizon': 'natural', 'op': 'adjust', 'temperature': '71'}
-        expectedparam = {'altitude': '45d14.3', 'observation': '45d15.2', 'pressure': '1010', 'horizon': 'natural', 'op': 'adjust', 'temperature': '71'}
-        self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Missing Height.")
-
-    def test_100_030_ShouldCalculateAltitudeWithMandatoryInformation(self):
-        param = {'observation': '45d15.2', 'height': '6.0', 'pressure': '1010', 'horizon': 'natural', 'op': 'adjust', 'temperature': '71','extra':'extra'}
-        expectedparam = {'altitude': '45d11.9', 'observation': '45d15.2', 'height': '6.0', 'pressure': '1010', 'horizon': 'natural', 'op': 'adjust', 'temperature': '71','extra':'extra'}
-        self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Extra Information Provided.")
-
-    def test_100_040_ShouldcalculateAltitudewithoutPressure(self):
-        param = {'observation': '45d15.2', 'horizon': 'natural', 'op': 'adjust', 'temperature': '71'}
-        expectedparam = {'altitude': '45d14.3', 'observation': '45d15.2', 'horizon': 'natural', 'op': 'adjust', 'temperature': '71'}
-        self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Missing Pressure.")
-
-    def test_100_050_ShouldcalculateAltitudewithoutTemperature(self):
-        param = {'observation': '45d15.2', 'horizon': 'natural', 'op': 'adjust'}
-        expectedparam = {'altitude': '45d14.3', 'observation': '45d15.2', 'horizon': 'natural', 'op': 'adjust'}
-        self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Missing Temperature.")
-
-    def test_100_060_ShouldcalculateAltitudewithoutHorizon(self):
-        param = {'observation': '42d0.0', 'op': 'adjust'}
-        expectedparam = {'altitude': '41d59.0', 'observation': '42d0.0', 'op': 'adjust'}
-        self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Missing Horizon.")
 
 
-    def test_100_070_ShouldcalculateAltitudewithoutAllOptionalValues(self):
-        param = {'observation': '45d15.2', 'op': 'adjust'}
-        expectedparam = {'altitude': '45d14.3', 'observation': '45d15.2', 'op': 'adjust'}
-        self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Missing All Optional Values.")
+######## *******************Writing tests for op = predict case  **************
 
-    def test_200_010_ShouldcalculateAltitudewithBlankHeight(self):
-        param = {'observation': '45d15.2', 'op': 'adjust', 'height':''}
-        expectedparam = {'altitude': '45d14.3', 'observation': '45d15.2', 'op': 'adjust','height':''}
-        self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Missing Value of height.")
+    #happy path
 
-    def test_200_020_ShouldcalculateAltitudewithBlankPressure(self):
-        param = {'observation': '45d15.2', 'op': 'adjust', 'height':'', 'pressure':''}
-        expectedparam = {'altitude': '45d14.3', 'observation': '45d15.2', 'op': 'adjust','height':'', 'pressure':''}
-        self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Missing Value of pressure.")
+    # Should calculate lat and long on correct data entered
 
-    def test_200_030_ShouldcalculateAltitudewithBlankTemperature(self):
-        param = {'observation': '45d15.2', 'op': 'adjust', 'height':'', 'pressure':'','temperature':''}
-        expectedparam = {'altitude': '45d14.3', 'observation': '45d15.2', 'op': 'adjust','height':'', 'pressure':'','temperature':''}
-        self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Missing Value of temperature.")
-
-    def test_200_040_ShouldcalculateAltitudewithBlankHorizon(self):
-        param = {'observation': '10d0', 'op': 'adjust','horizon':'artifical', 'height':'6.0', 'pressure':'1010','temperature':'72'}
-        expectedparam = {'altitude': '9d54.7', 'observation': '10d0', 'op': 'adjust','horizon':'artifical','height':'6.0', 'pressure':'1010','temperature':'72'}
-        self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Missing Value of horizon.")
-
-# Sad Path Tests
-
-    # Should generate error on wrong observation input          Done
-    # Should generate error on wrong height input               Done
-    # Should generate error on wrong pressure input             Done
-    # Should generate error on wrong horizon input              Done
-    # Should generate error on wrong temperature input          Done
-    # Should generate error on missing mandatory information    Done
-
-    def test_300_010_ShouldGenerateErrorOnWrongObservationDegree(self):
-        param = {'observation': '100d0', 'op': 'adjust','horizon':'artifical', 'height':'6.0', 'pressure':'1010','temperature':'72'}
-        expectedparam = {'observation': '100d0', 'op': 'adjust','horizon':'artifical','height':'6.0', 'pressure':'1010','temperature':'72','error': 'Observation is invalid'}
-        self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Invalid value of Observation Degree.")
-
-    def test_300_020_ShouldGenerateErrorOnWrongObservationDegree(self):
-        param = {'observation': '-10d0', 'op': 'adjust','horizon':'artifical', 'height':'6.0', 'pressure':'1010','temperature':'72'}
-        expectedparam = {'observation': '-10d0', 'op': 'adjust','horizon':'artifical','height':'6.0', 'pressure':'1010','temperature':'72','error': 'Observation is invalid'}
-        self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Invalid value of Observation Degree.")
-
-    def test_300_030_ShouldGenerateErrorOnWrongObservationDegree(self):
-        param = {'observation': '10d60.1', 'op': 'adjust','horizon':'artifical', 'height':'6.0', 'pressure':'1010','temperature':'72'}
-        expectedparam = {'observation': '10d60.1', 'op': 'adjust','horizon':'artifical','height':'6.0', 'pressure':'1010','temperature':'72','error': 'Observation is invalid'}
-        self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Invalid value of Observation Degree.")
-
-
-    def test_300_040_ShouldGenerateErrorOnWrongObservationDegree(self):
-        param = {'observation': '10d-0.1', 'op': 'adjust','horizon':'artifical', 'height':'6', 'pressure':'1010','temperature':'72'}
-        expectedparam = {'observation': '10d-0.1', 'op': 'adjust','horizon':'artifical','height':'6', 'pressure':'1010','temperature':'72','error': 'Observation is invalid'}
-        self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Invalid value of Observation Degree.")
-
-    def test_300_050_ShouldGenerateErrorOnWrongHeight(self):
-        param = {'observation': '10d50', 'op': 'adjust','horizon':'artifical', 'height':'-1', 'pressure':'1010','temperature':'72'}
-        expectedparam = {'observation': '10d50', 'op': 'adjust','horizon':'artifical','height':'-1', 'pressure':'1010','temperature':'72','error': 'Height is invalid'}
-        self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Invalid value of Height.")
-
-    def test_300_060_ShouldGenerateErrorOnWrongHeight(self):
-        param = {'observation': '10d50', 'op': 'adjust','horizon':'artifical', 'height':'a', 'pressure':'1010','temperature':'72'}
-        expectedparam = {'observation': '10d50', 'op': 'adjust','horizon':'artifical','height':'a', 'pressure':'1010','temperature':'72','error': 'Height is invalid'}
-        self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Invalid value of Height.")
-
-    def test_300_070_ShouldGenerateErrorOnWrongPressure(self):
-        param = {'observation': '10d50', 'op': 'adjust','horizon':'artifical', 'height':'5', 'pressure':'25','temperature':'72'}
-        expectedparam = {'observation': '10d50', 'op': 'adjust','horizon':'artifical','height':'5', 'pressure':'25','temperature':'72','error': 'Pressure is invalid'}
-        self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Invalid value of Pressure.")
-
-    def test_300_080_ShouldGenerateErrorOnWrongPressure(self):
-        param = {'observation': '10d50', 'op': 'adjust','horizon':'artifical', 'height':'5', 'pressure':'1111','temperature':'72'}
-        expectedparam = {'observation': '10d50', 'op': 'adjust','horizon':'artifical','height':'5', 'pressure':'1111','temperature':'72','error': 'Pressure is invalid'}
-        self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Invalid value of Pressure.")
-
-    def test_300_090_ShouldGenerateErrorOnWrongHorizon(self):
-        param = {'observation': '10d50', 'op': 'adjust','horizon':'awgsdh', 'height':'5', 'pressure':'1100','temperature':'72'}
-        expectedparam = {'observation': '10d50', 'op': 'adjust','horizon':'awgsdh','height':'5', 'pressure':'1100','temperature':'72','error': 'Horizon is invalid'}
-        self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Invalid value of Pressure.")
-
-    def test_300_100_ShouldGenerateErrorOnWrongTemperature(self):
-        param = {'observation': '10d50', 'op': 'adjust','horizon':'artifical', 'height':'5', 'pressure':'1100','temperature':'-21'}
-        expectedparam = {'observation': '10d50', 'op': 'adjust','horizon':'artifical','height':'5', 'pressure':'1100','temperature':'-21','error': 'Temperature is invalid'}
-        self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Invalid value of Temperature.")
-
-    def test_300_110_ShouldGenerateErrorOnWrongInformation(self):
-        param = {'observation': '10d', 'op': 'adjust','horizon':'artifical', 'height':'5', 'pressure':'1100','temperature':'-20'}
-        expectedparam = {'observation': '10d', 'op': 'adjust','horizon':'artifical','height':'5', 'pressure':'1100','temperature':'-20','error': 'Observation is invalid'}
-        self.assertDictEqual(dspt.dispatch(param), expectedparam, "Not Able to pass Dict with Invalid value of Temperature.")
+    def test300_100ShouldCalculateLatLogWithProperData(self):
+        values = {'op':'predict','body':'Betelgeuse','date':'2016-01-17','time':'03:15:42'}
+        expectedDictionary = {'op':'predict','body':'Betelgeuse','date':'2016-01-17','time':'03:15:42','long':'75d53.6','lat':'7d24.3'}
+        self.assertDictEqual(DP.dispatch(values),expectedDictionary)
