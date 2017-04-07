@@ -1,4 +1,6 @@
 import math
+import os
+import datetime
 def obser2atl(con):
     con = str(con)
     if con.find("d") == False:
@@ -12,6 +14,24 @@ def obser2atl(con):
             degree = int(degnmin[0])
             minute = float(degnmin[1])
             minute = round(minute,1)
+
+            # degree = con.split('d')
+            # minute = float(degree[1])
+            # if int(degree[0]) != 0:
+            #     if degree[0] < 0:
+            #         degree = int(degree[0]) - minute / 60
+            #     else:
+            #         degree = int(degree[0]) + minute / 60
+            # else:
+            #     if degree[0][0] == '-':
+            #         degree = - minute / 60
+            #     else:
+            #         degree = minute / 60
+            # if degree < 0 or degree > 90 or minute < 0.0 or minute > 60.0:
+            #     con = "error"
+            #     return con
+            # else:
+            #     return degree
         except:
             con = 'error'
             return con
@@ -21,6 +41,28 @@ def obser2atl(con):
         else:
             return con
 
+def obser2atl2(con):
+    degree = con.split('d')
+    minute = float(degree[1])
+    if int(degree[0]) != 0:
+        if degree[0] < 0:
+            degree = int(degree[0]) - minute / 60
+        else:
+            degree = int(degree[0]) + minute / 60
+    else:
+        if degree[0][0] == '-':
+            degree = - minute / 60
+        else:
+            degree = minute / 60
+    return degree
+def convert2String(con):
+    nminute = str("{:.1f}".format((con - int(con)) * 60))
+    nminute = nminute.split('.')
+    inti = nminute[0].zfill(1)
+    dec = nminute[1]
+    nminute = inti + '.' + dec
+    con = str(int(con)) + 'd' + nminute
+    return con
 def dispatch(values=None):
     dip = 0
     #Validate parm
@@ -34,54 +76,6 @@ def dispatch(values=None):
     if (not('op' in values)):
         values['error'] = 'no op is specified'
         return values
-    # if values['observation'] != "":
-    #     tempaltitude = obser2atl(values['observation'])
-    #     if tempaltitude != "error":
-    #
-    #         if ('height' in values) and values['height'] != '':
-    #             try:
-    #                 height = float(values['height'])
-    #             except:
-    #                 values['error'] = 'Height is invalid'
-    #                 return values
-    #             if height < 0:
-    #                 values['error'] = 'Height is invalid'
-    #                 return values
-    #         else:
-    #             height = 0
-    #         if ('pressure' in values) and values['pressure'] != '':
-    #             try:
-    #                 pressure = int(values['pressure'])
-    #             except:
-    #                 values['error'] = 'Pressure is invalid'
-    #                 return values
-    #             if pressure < 100 or pressure > 1100:
-    #                 values['error'] = 'Pressure is invalid'
-    #                 return values
-    #         else:
-    #             pressure = 1010
-    #
-    #         if ('temperature' in values) and values['temperature'] != '':
-    #             try:
-    #                 temperature = int(values['temperature'])
-    #             except:
-    #                 values['error'] = 'Temperature is invalid'
-    #                 return values
-    #             if temperature < -20 or temperature > 120:
-    #                 values['error'] = 'Temperature is invalid'
-    #                 return values
-    #         else:
-    #             temperature = 72
-    #
-    #         if ('horizon' in values) and values['horizon'] != '':
-    #             if values['horizon'] == 'natural' or values['horizon'] == 'artificial':
-    #                 horizon = values['horizon']
-    #             else:
-    #                 values['error'] = 'Horizon is invalid'
-    #                 return values
-    #         else:
-    #             horizon = "naturall"
-
                 #Perform designated function
     if(values['op'] == 'adjust'):
         if ('observation' in values) and values['observation'] != "" and (not('altitude' in values)):
@@ -148,15 +142,61 @@ def dispatch(values=None):
         ref3 = math.tan(math.radians(tempaltitude))
         ref = ref1 / ref2 / ref3
         altitude = float(tempaltitude + dip + ref)
-        nminute = str("{:.1f}".format((altitude - int(altitude)) * 60))
-        nminute = nminute.split('.')
-        inti = nminute[0].zfill(1)
-        dec = nminute[1]
-        nminute = inti + '.' + dec
-        altitude = str(int(altitude)) + 'd' + nminute
+        altitude = convert2String(altitude)
+        # nminute = str("{:.1f}".format((altitude - int(altitude)) * 60))
+        # nminute = nminute.split('.')
+        # inti = nminute[0].zfill(1)
+        # dec = nminute[1]
+        # nminute = inti + '.' + dec
+        # altitude = str(int(altitude)) + 'd' + nminute
         values['altitude'] = altitude
         return values    #<-------------- replace this with your implementation
+
     elif(values['op'] == 'predict'):
+        starsfile = os.path.join(os.path.dirname(__file__),'stars.txt')
+        starbody = {}
+        sbody = open(starsfile)
+        for starb in sbody:
+            star = starb
+            star = star.split()
+            starbody[star[0]] = str(star[1]) + ' ' + str(star[2])
+        sbody.close()
+        print starbody
+        starref = values['body']
+        stardate = values['date']
+        startime = values['time']
+
+        if starref in starbody:
+            starfull = starbody[starref]
+            starfull = starfull.split()
+            SHA = starfull[0]
+            latitude = starfull[1]
+        else:
+            values['error'] = 'Star not in Stars Table'
+            return values
+        RefYear = 2001
+        date = values['date']
+        date = date.split('-')
+        ObserYear = int(date[0])
+        ObserMonth = int(date[1])
+        ObserDay = int(date[2])
+        time = values['time']
+        diff = ObserYear - RefYear
+        leap = diff/4
+        leap = int(leap)
+        CumProg = diff * obser2atl2('-0d14.31667')
+        dailyRoat = obser2atl2('0d59.0')
+        totalProg = dailyRoat * leap
+        yearStart = datetime.date(ObserYear,1,1)
+        yearNow = datetime.date(ObserYear,ObserMonth,ObserDay)
+        diff = yearNow - yearStart
+        diff = int(diff.days)
+        time = time.split(':')
+        seconds = diff * 86400 + int(time[0]) * 3600 + int(time[1]) * 60 + int(time[2])
+        rotation = (seconds - int(seconds / 86164.1) * 86164.1) / 86164.1 * obser2atl2('360d0.0')
+        GHA = CumProg + rotation + totalProg + obser2atl2('100d42.6')
+        
+
 
         return values    #This calculation is stubbed out
     elif(values['op'] == 'correct'):
@@ -166,4 +206,3 @@ def dispatch(values=None):
     else:
         values['error'] = 'op is not a legal operation'
         return values
-

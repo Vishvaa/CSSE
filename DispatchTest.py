@@ -39,9 +39,9 @@ class MyTestCase(unittest.TestCase):
     #    values = {'op':'adjust'}
     #    self.assertDictEqual(DP.dispatch(values), values)
 
-    def test100_010ShouldReturnUnchangedValuesWithOperationPredict(self):
-        values = {'op': 'predict'}
-        self.assertDictEqual(DP.dispatch(values), values)
+    # def test100_010ShouldReturnUnchangedValuesWithOperationPredict(self):
+    #     values = {'op': 'predict'}
+    #     self.assertDictEqual(DP.dispatch(values), values)
 
     def test100_020ShouldReturnUnchangedValuesWithOperationCorrect(self):
         values = {'op': 'correct'}
@@ -272,3 +272,13 @@ class MyTestCase(unittest.TestCase):
         values = {'op':'predict','body':'Betelgeuse','date':'2016-01-17','time':'03:15:42'}
         expectedDictionary = {'op':'predict','body':'Betelgeuse','date':'2016-01-17','time':'03:15:42','long':'75d53.6','lat':'7d24.3'}
         self.assertDictEqual(DP.dispatch(values),expectedDictionary)
+
+
+
+    # Sad Path
+
+    # Should remove error if added in dict
+    # Should calculate on leap years
+    # Should calculate on normal years
+    # Should calculate on close to leap years
+    # Should not calculate if lat and long are present
