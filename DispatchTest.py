@@ -344,6 +344,6 @@ class MyTestCase(unittest.TestCase):
         values = {'op':'predict','body':'betelgeuse','date':'2016-1-17','time':'03:589:59'}
         self.assertTrue(DP.dispatch(values).has_key("error"), True)
 
-    def test400_010ShouldReturnErrorWhenWrongDateFormat(self):
+    def test400_080ShouldReturnErrorWhenWrongDateFormat(self):
         values = {'op':'predict','body':'betelgeuse','date':'2016-1-17','time':'03:15:42','lat':'45d64.1','long':'adg'}
         self.assertTrue(DP.dispatch(values).has_key("error"), True)
