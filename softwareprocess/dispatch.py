@@ -178,6 +178,7 @@ def dispatch(values=None):
         diff = yearNow - yearStart
         diff = int(diff.days)
         startime = startime.split(':')
+        if 0 < startime[0] > :
         seconds = diff * 86400 + int(startime[0]) * 3600 + int(startime[1]) * 60 + int(startime[2])
         rotation = (seconds - int(seconds / 86164.1) * 86164.1) / 86164.1 * obser2atl2('360d0')
         GHA = CumProg + rotation + totalProg + obser2atl2('100d42.6')

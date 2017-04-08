@@ -309,7 +309,7 @@ class MyTestCase(unittest.TestCase):
     # Sad Path
 
 
-    # Should give error on wrong date format
+    # Should give error on wrong date format        Done
     # Should give error on wrong time format
     # Should calculate on normal years
     # Should calculate on close to leap years
@@ -321,14 +321,18 @@ class MyTestCase(unittest.TestCase):
         values = {'op':'predict','body':'betelgeuse','date':'2016-21-17','time':'03:15:42'}
         self.assertTrue(DP.dispatch(values).has_key("error"), True)
 
-    def test400_010ShouldReturnErrorWhenWrongDateFormat(self):
+    def test400_020ShouldReturnErrorWhenWrongDateFormat(self):
         values = {'op':'predict','body':'betelgeuse','date':'2016-2-47','time':'03:15:42'}
         self.assertTrue(DP.dispatch(values).has_key("error"), True)
 
-    def test400_010ShouldReturnErrorWhenWrongDateFormat(self):
+    def test400_030ShouldReturnErrorWhenWrongDateFormat(self):
         values = {'op':'predict','body':'betelgeuse','date':'2000-1-17','time':'03:15:42'}
         self.assertTrue(DP.dispatch(values).has_key("error"), True)
 
-    def test400_010ShouldReturnErrorWhenWrongDateFormat(self):
+    def test400_040ShouldReturnErrorWhenWrongDateFormat(self):
         values = {'op':'predict','body':'betelgeuse','date':'2000-221-1e7','time':'03:15:42'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test400_050ShouldReturnErrorWhenWrongTimeFormat(self):
+        values = {'op':'predict','body':'betelgeuse','date':'2016-1-17','time':'03:65:42'}
         self.assertTrue(DP.dispatch(values).has_key("error"), True)
