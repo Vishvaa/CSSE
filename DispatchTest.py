@@ -300,8 +300,6 @@ class MyTestCase(unittest.TestCase):
     def test300_010ShouldCalculateLatLogWithLowerCaseStarName(self):
         values = {'op':'predict','body':'betelgeuse','date':'2016-01-17','time':'03:15:42'}
         expectedDictionary = {'op':'predict','body':'betelgeuse','date':'2016-01-17','time':'03:15:42','long':'75d53.6','lat':'7d24.3'}
-        print ("hello")
-        print (DP.dispatch(values))
         self.assertDictEqual(DP.dispatch(values),expectedDictionary)
 
 
