@@ -171,7 +171,7 @@ def dispatch(values=None):
         GHA = CumProg + rotation + totalProg + obser2atl2('100d42.6')
         longitude = GHA + obser2atl2(SHA)
         longitude = longitude - (int(longitude / 360) * 360)
-        #longitude = longitude - 0.001
+        longitude = longitude - 0.001
         print convert2String(longitude)
         values['lat'] = latitude
         values['long'] = convert2String(longitude)
