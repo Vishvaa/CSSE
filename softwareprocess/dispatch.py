@@ -138,7 +138,11 @@ def dispatch(values=None):
         else:
             values['date'] = '2001-01-01'
             stardate = values['date']
-        startime = values['time']
+        if 'time' in values and values['time'] != "":
+            startime = values['time']
+        else:
+            values['time'] = '00:00:00'
+            startime = values['time']
         if starref in starbody:
             starfull = starbody[starref]
             starfull = starfull.split()
@@ -167,7 +171,7 @@ def dispatch(values=None):
         GHA = CumProg + rotation + totalProg + obser2atl2('100d42.6')
         longitude = GHA + obser2atl2(SHA)
         longitude = longitude - (int(longitude / 360) * 360)
-        longitude = longitude - 0.001
+        #longitude = longitude - 0.001
         print convert2String(longitude)
         values['lat'] = latitude
         values['long'] = convert2String(longitude)
