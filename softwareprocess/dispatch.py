@@ -126,72 +126,72 @@ def dispatch(values=None):
         if 'lat' in values or 'long' in values:
             values['error'] = "Latitude or Longitude already Present"
             return values
-        starsfile = os.path.join(os.path.dirname(__file__),'stars.txt')
-        starbody = {}
-        sbody = open(starsfile)
-        for starb in sbody:
-            star = starb
-            star = star.split()
-            starbody[str.lower(star[0])] = str(star[1]) + ' ' + str(star[2])
-        sbody.close()
-        if 'body' in values and values['body'] != "":
-            starref = values['body']
-            starref = str.lower(starref)
-        else:
-            values['error'] = "Mandatory Information Missing"
-            return values
-        if 'date' in values and values['date'] != "":
-            stardate = values['date']
-        else:
-            values['date'] = '2001-01-01'
-            stardate = values['date']
-        if 'time' in values and values['time'] != "":
-            startime = values['time']
-        else:
-            values['time'] = '00:00:00'
-            startime = values['time']
-        if starref in starbody:
-            starfull = starbody[starref]
-            starfull = starfull.split()
-            SHA = starfull[0]
-            latitude = starfull[1]
-        else:
-            values['error'] = 'Star not in Stars Table'
-            return values
-        RefYear = 2001
-        stardate = stardate.split('-')
         try:
+            starsfile = os.path.join(os.path.dirname(__file__),'stars.txt')
+            starbody = {}
+            sbody = open(starsfile)
+            for starb in sbody:
+                star = starb
+                star = star.split()
+                starbody[str.lower(star[0])] = str(star[1]) + ' ' + str(star[2])
+            sbody.close()
+            if 'body' in values and values['body'] != "":
+                starref = values['body']
+                starref = str.lower(starref)
+            else:
+                values['error'] = "Mandatory Information Missing"
+                return values
+            if 'date' in values and values['date'] != "":
+                stardate = values['date']
+            else:
+                values['date'] = '2001-01-01'
+                stardate = values['date']
+            if 'time' in values and values['time'] != "":
+                startime = values['time']
+            else:
+                values['time'] = '00:00:00'
+                startime = values['time']
+            if starref in starbody:
+                starfull = starbody[starref]
+                starfull = starfull.split()
+                SHA = starfull[0]
+                latitude = starfull[1]
+            else:
+                values['error'] = 'Star not in Stars Table'
+                return values
+            RefYear = 2001
+            stardate = stardate.split('-')
             ObserYear = int(stardate[0])
             ObserMonth = int(stardate[1])
             ObserDay = int(stardate[2])
+            if 0 < ObserMonth > 12 or 0 < ObserDay > 31 or ObserYear < 2001:
+                values['error'] = "Date is invalid"
+                return values
+            diff = ObserYear - RefYear
+            leap = diff/4
+            leap = int(leap)
+            CumProg = diff * obser2atl2('-0d14.31667')
+            totalProg = obser2atl2('0d59.0') * leap
+            yearStart = datetime.date(ObserYear,1,1)
+            yearNow = datetime.date(ObserYear,ObserMonth,ObserDay)
+            diff = yearNow - yearStart
+            diff = int(diff.days)
+            startime = startime.split(':')
+            if 0 < int(startime[0]) > 24 or 0 < int(startime[1]) > 59 or 0 < int(startime[2]) > 59:
+                values['error'] = "Time is invalid"
+                return values
+            seconds = diff * 86400 + int(startime[0]) * 3600 + int(startime[1]) * 60 + int(startime[2])
+            rotation = (seconds - int(seconds / 86164.1) * 86164.1) / 86164.1 * obser2atl2('360d0')
+            GHA = CumProg + rotation + totalProg + obser2atl2('100d42.6')
+            longitude = GHA + obser2atl2(SHA)
+            longitude = longitude - (int(longitude / 360) * 360)
+            longitude = longitude - 0.001
+            values['lat'] = latitude
+            values['long'] = convert2String(longitude)
+            return values    #This calculation is stubbed out
         except:
-            values['error'] = "woring Date Formate"
+            values['error'] = "Bad Data"
             return values
-        if 0 < ObserMonth > 12 or 0 < ObserDay > 31 or ObserYear < 2001:
-            values['error'] = "Date is invalid"
-            return values
-        diff = ObserYear - RefYear
-        leap = diff/4
-        leap = int(leap)
-        CumProg = diff * obser2atl2('-0d14.31667')
-        totalProg = obser2atl2('0d59.0') * leap
-        yearStart = datetime.date(ObserYear,1,1)
-        yearNow = datetime.date(ObserYear,ObserMonth,ObserDay)
-        diff = yearNow - yearStart
-        diff = int(diff.days)
-        startime = startime.split(':')
-        if 0 < int(startime[0]) > 24 or 0 < int(startime[1]) > 59 or 0 < int(startime[2]) > 59:
-            values['error'] = "Time is invalid"
-            return values
-        seconds = diff * 86400 + int(startime[0]) * 3600 + int(startime[1]) * 60 + int(startime[2])
-        rotation = (seconds - int(seconds / 86164.1) * 86164.1) / 86164.1 * obser2atl2('360d0')
-        GHA = CumProg + rotation + totalProg + obser2atl2('100d42.6')
-        longitude = GHA + obser2atl2(SHA)
-        longitude = longitude - (int(longitude / 360) * 360)
-        longitude = longitude - 0.001
-        values['lat'] = latitude
-        values['long'] = convert2String(longitude)
-        return values    #This calculation is stubbed out
     elif(values['op'] == 'correct'):
         return values    #This calculation is stubbed out
     elif(values['op'] == 'locate'):

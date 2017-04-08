@@ -39,9 +39,9 @@ class MyTestCase(unittest.TestCase):
     #    values = {'op':'adjust'}
     #    self.assertDictEqual(DP.dispatch(values), values)
 
-    def test100_010ShouldReturnUnchangedValuesWithOperationPredict(self):
-        values = {'op': 'predict'}
-        self.assertDictEqual(DP.dispatch(values), values)
+    # def test100_010ShouldReturnUnchangedValuesWithOperationPredict(self):
+    #     values = {'op': 'predict'}
+    #     self.assertDictEqual(DP.dispatch(values), values)
 
     def test100_020ShouldReturnUnchangedValuesWithOperationCorrect(self):
         values = {'op': 'correct'}
@@ -267,8 +267,83 @@ class MyTestCase(unittest.TestCase):
     #happy path
 
     # Should calculate lat and long on correct data entered
+    # Should calculate lat and long on star name in lowercase
+    # Should calculate lat and long on missing date
+    # Should calculate lat and long on missing time
+    # Should genereate error on missing star name
+    # Should generate error on wrong star input
 
-    def test300_100ShouldCalculateLatLogWithProperData(self):
+    def test300_010ShouldCalculateLatLogWithProperData(self):
         values = {'op':'predict','body':'Betelgeuse','date':'2016-01-17','time':'03:15:42'}
         expectedDictionary = {'op':'predict','body':'Betelgeuse','date':'2016-01-17','time':'03:15:42','long':'75d53.6','lat':'7d24.3'}
         self.assertDictEqual(DP.dispatch(values),expectedDictionary)
+
+
+    def test300_020ShouldCalculateLatLongWithMissingDate(self):
+        values = {'op':'predict','body':'Betelgeuse','time':'03:15:42'}
+        expectedDictionary = {'op':'predict','body':'Betelgeuse','date':'2001-01-01','time':'03:15:42','long':'60d45.2','lat':'7d24.3'}
+        self.assertDictEqual(DP.dispatch(values),expectedDictionary)
+
+    def test300_030ShouldCalculateLatLongWithMissingDate(self):
+        values = {'op':'predict','body':'BetelgeUse'}
+        expectedDictionary = {'op':'predict','body':'BetelgeUse','date':'2001-01-01','time':'00:00:00','long':'11d41.6','lat':'7d24.3'}
+        self.assertDictEqual(DP.dispatch(values),expectedDictionary)
+
+    def test300_040ShouldReturnErrorWhenWrongStarGiven(self):
+        values = {'op':'predict','body':'Betelgeus'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test300_050ShouldReturnErrorWhenMandatoryInfoMissing(self):
+        values = {'op':'predict'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test300_010ShouldCalculateLatLogWithLowerCaseStarName(self):
+        values = {'op':'predict','body':'betelgeuse','date':'2016-01-17','time':'03:15:42'}
+        expectedDictionary = {'op':'predict','body':'betelgeuse','date':'2016-01-17','time':'03:15:42','long':'75d53.6','lat':'7d24.3'}
+        self.assertDictEqual(DP.dispatch(values),expectedDictionary)
+
+
+
+    # Sad Path
+
+
+    # Should give error on wrong date format        Done
+    # Should give error on wrong time format        Done
+    # Should calculate on normal years              Done
+    # Should calculate on close to leap years       Done
+    # Should not calculate if lat and long are present  Done
+    # Should calculate on leap years                Done
+
+
+    def test400_010ShouldReturnErrorWhenWrongDateFormat(self):
+        values = {'op':'predict','body':'betelgeuse','date':'2016-21-17','time':'03:15:42'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test400_020ShouldReturnErrorWhenWrongDateFormat(self):
+        values = {'op':'predict','body':'betelgeuse','date':'2016-2-47','time':'03:15:42'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test400_030ShouldReturnErrorWhenWrongDateFormat(self):
+        values = {'op':'predict','body':'betelgeuse','date':'2000-1-17','time':'03:15:42'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test400_040ShouldReturnErrorWhenWrongDateFormat(self):
+        values = {'op':'predict','body':'betelgeuse','date':'2000-221-1e7','time':'03:15:42'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test400_050ShouldReturnErrorWhenWrongTimeFormat(self):
+        values = {'op':'predict','body':'betelgeuse','date':'2016-1-17','time':'03:65:42'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test400_060ShouldReturnErrorWhenWrongTimeFormat(self):
+        values = {'op':'predict','body':'betelgeuse','date':'2016-1-17','time':'03:60:42'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+
+    def test400_070ShouldReturnErrorWhenWrongTimeFormat(self):
+        values = {'op':'predict','body':'betelgeuse','date':'2016-1-17','time':'03:589:59'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test400_080ShouldReturnErrorWhenWrongDateFormat(self):
+        values = {'op':'predict','body':'betelgeuse','date':'2016-1-17','time':'03:15:42','long':'adg'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
