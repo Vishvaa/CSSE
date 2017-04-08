@@ -133,7 +133,10 @@ def dispatch(values=None):
         sbody.close()
         print starbody
         starref = values['body']
-        stardate = values['date']
+        if 'date' in values and values[date] != "":
+            stardate = values['date']
+        else:
+            stardate = datetime.date(2001,1,1)
         startime = values['time']
         if starref in starbody:
             starfull = starbody[starref]
@@ -144,12 +147,11 @@ def dispatch(values=None):
             values['error'] = 'Star not in Stars Table'
             return values
         RefYear = 2001
-        date = values['date']
-        date = date.split('-')
-        ObserYear = int(date[0])
+        stardate = stardate.split('-')
+        ObserYear = int(stardate[0])
         diff = ObserYear - RefYear
-        ObserMonth = int(date[1])
-        ObserDay = int(date[2])
+        ObserMonth = int(stardate[1])
+        ObserDay = int(stardate[2])
         time = values['time']
         leap = diff/4
         leap = int(leap)
