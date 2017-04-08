@@ -129,7 +129,7 @@ def dispatch(values=None):
         for starb in sbody:
             star = starb
             star = star.split()
-            starbody[star[0]] = str(star[1]) + ' ' + str(star[2])
+            starbody[str.lower(star[0])] = str(star[1]) + ' ' + str(star[2])
         sbody.close()
         print starbody
         if 'body' in values and values['body'] != "":

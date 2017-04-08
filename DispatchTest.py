@@ -267,6 +267,7 @@ class MyTestCase(unittest.TestCase):
     #happy path
 
     # Should calculate lat and long on correct data entered
+    # Should calculate lat and long on star name in lowercase
     # Should calculate lat and long on missing date
     # Should calculate lat and long on missing time
     # Should genereate error on missing star name
@@ -276,6 +277,7 @@ class MyTestCase(unittest.TestCase):
         values = {'op':'predict','body':'Betelgeuse','date':'2016-01-17','time':'03:15:42'}
         expectedDictionary = {'op':'predict','body':'Betelgeuse','date':'2016-01-17','time':'03:15:42','long':'75d53.6','lat':'7d24.3'}
         self.assertDictEqual(DP.dispatch(values),expectedDictionary)
+
 
     def test300_020ShouldCalculateLatLongWithMissingDate(self):
         values = {'op':'predict','body':'Betelgeuse','time':'03:15:42'}
@@ -291,9 +293,16 @@ class MyTestCase(unittest.TestCase):
         values = {'op':'predict','body':'Betelgeus'}
         self.assertTrue(DP.dispatch(values).has_key("error"), True)
 
-    def test200_1020ShouldReturnErrorWhenWrongStarGiven(self):
+    def test300_050ShouldReturnErrorWhenMandatoryInfoMissing(self):
         values = {'op':'predict'}
         self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test300_010ShouldCalculateLatLogWithLowerCaseStarName(self):
+        values = {'op':'predict','body':'betelgeuse','date':'2016-01-17','time':'03:15:42'}
+        expectedDictionary = {'op':'predict','body':'betelgeuse','date':'2016-01-17','time':'03:15:42','long':'75d53.6','lat':'7d24.3'}
+        print ("hello")
+        print (DP.dispatch(values))
+        self.assertDictEqual(DP.dispatch(values),expectedDictionary)
 
 
 
