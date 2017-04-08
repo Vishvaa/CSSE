@@ -133,10 +133,11 @@ def dispatch(values=None):
         sbody.close()
         print starbody
         starref = values['body']
-        if 'date' in values and values[date] != "":
+        if 'date' in values and values['date'] != "":
             stardate = values['date']
         else:
             stardate = datetime.date(2001,1,1)
+            values['date'] = '2001-01-01'
         startime = values['time']
         if starref in starbody:
             starfull = starbody[starref]
