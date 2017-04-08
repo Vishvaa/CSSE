@@ -157,7 +157,7 @@ def dispatch(values=None):
                 SHA = starfull[0]
                 latitude = starfull[1]
             else:
-                values['error'] = 'Star not in Stars Table'
+                values['error'] = 'Star not in Stars File'
                 return values
             RefYear = 2001
             stardate = stardate.split('-')
