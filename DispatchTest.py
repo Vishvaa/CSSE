@@ -269,6 +269,7 @@ class MyTestCase(unittest.TestCase):
     # Should calculate lat and long on correct data entered
     # Should calculate lat and long on missing date
     # Should calculate lat and long on missing time
+    # Should generate error on wrong star input
 
     def test300_010ShouldCalculateLatLogWithProperData(self):
         values = {'op':'predict','body':'Betelgeuse','date':'2016-01-17','time':'03:15:42'}
@@ -285,6 +286,10 @@ class MyTestCase(unittest.TestCase):
         expectedDictionary = {'op':'predict','body':'Betelgeuse','date':'2001-01-01','time':'00:00:00','long':'11d41.6','lat':'7d24.3'}
         self.assertDictEqual(DP.dispatch(values),expectedDictionary)
 
+    def test300_040ShouldCalculateLatLongWithMissingDate(self):
+        values = {'op':'predict','body':'Betel'}
+        expectedDictionary = {'op':'predict','body':'Betelgeuse','date':'2001-01-01','time':'00:00:00','long':'11d41.6','lat':'7d24.3'}
+        self.assertDictEqual(DP.dispatch(values),expectedDictionary)
 
 
 
