@@ -123,6 +123,9 @@ def dispatch(values=None):
         return values    #<-------------- replace this with your implementation
 
     elif(values['op'] == 'predict'):
+        if 'lat' in values or 'long' in values:
+            values['error'] = "Latitude or Longitude already Present"
+            return values
         starsfile = os.path.join(os.path.dirname(__file__),'stars.txt')
         starbody = {}
         sbody = open(starsfile)
