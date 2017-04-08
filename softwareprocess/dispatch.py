@@ -161,7 +161,8 @@ def dispatch(values=None):
         ObserYear = int(stardate[0])
         ObserMonth = int(stardate[1])
         ObserDay = int(stardate[2])
-        if 0 < ObserMonth > 12 or 0 < ObserDay > 31 or :
+        if 0 < ObserMonth > 12 or 0 < ObserDay > 31 or ObserYear < 2001:
+            values['error'] = "Date is invalid"
         diff = ObserYear - RefYear
         leap = diff/4
         leap = int(leap)
