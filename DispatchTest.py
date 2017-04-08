@@ -285,6 +285,8 @@ class MyTestCase(unittest.TestCase):
 
     # Should remove error if added in dict
     # Should calculate on leap years
+    # Should give error on wrong date formate
+    # Should give error on wrong time formate
     # Should calculate on normal years
     # Should calculate on close to leap years
     # Should not calculate if lat and long are present
