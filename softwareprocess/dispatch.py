@@ -134,6 +134,7 @@ def dispatch(values=None):
         print starbody
         if 'body' in values and values['body'] != "":
             starref = values['body']
+            starref = str.lower(starref)
         else:
             values['error'] = "Mandatory Information Missing"
             return values
