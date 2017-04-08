@@ -158,9 +158,13 @@ def dispatch(values=None):
             return values
         RefYear = 2001
         stardate = stardate.split('-')
-        ObserYear = int(stardate[0])
-        ObserMonth = int(stardate[1])
-        ObserDay = int(stardate[2])
+        try:
+            ObserYear = int(stardate[0])
+            ObserMonth = int(stardate[1])
+            ObserDay = int(stardate[2])
+        except:
+            values['error'] = "woring Date Formate"
+            return values
         if 0 < ObserMonth > 12 or 0 < ObserDay > 31 or ObserYear < 2001:
             values['error'] = "Date is invalid"
             return values
