@@ -269,6 +269,7 @@ class MyTestCase(unittest.TestCase):
     # Should calculate lat and long on correct data entered
     # Should calculate lat and long on missing date
     # Should calculate lat and long on missing time
+    # Should genereate error on missing star name
     # Should generate error on wrong star input
 
     def test300_010ShouldCalculateLatLogWithProperData(self):
@@ -288,6 +289,10 @@ class MyTestCase(unittest.TestCase):
 
     def test300_040ShouldReturnErrorWhenWrongStarGiven(self):
         values = {'op':'predict','body':'Betelgeus'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test200_1020ShouldReturnErrorWhenWrongStarGiven(self):
+        values = {'op':'predict'}
         self.assertTrue(DP.dispatch(values).has_key("error"), True)
 
 
