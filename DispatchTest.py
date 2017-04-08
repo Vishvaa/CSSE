@@ -276,7 +276,7 @@ class MyTestCase(unittest.TestCase):
 
     def test300_200ShouldCalculateLatLongWithMissingDate(self):
         values = {'op':'predict','body':'Betelgeuse','time':'03:15:42'}
-        expectedDictionary = {'op':'predict','body':'Betelgeuse','date':'2001-01-01','time':'03:15:42','long':'75d53.6','lat':'7d24.3'}
+        expectedDictionary = {'op':'predict','body':'Betelgeuse','date':'2001-01-01','time':'03:15:42','long':'60d45.2','lat':'7d24.3'}
         self.assertDictEqual(DP.dispatch(values),expectedDictionary)
 
 
