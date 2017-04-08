@@ -334,3 +334,12 @@ class MyTestCase(unittest.TestCase):
     def test400_050ShouldReturnErrorWhenWrongTimeFormat(self):
         values = {'op':'predict','body':'betelgeuse','date':'2016-1-17','time':'03:65:42'}
         self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test400_060ShouldReturnErrorWhenWrongTimeFormat(self):
+        values = {'op':'predict','body':'betelgeuse','date':'2016-1-17','time':'03:60:42'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+
+    def test400_070ShouldReturnErrorWhenWrongTimeFormat(self):
+        values = {'op':'predict','body':'betelgeuse','date':'2016-1-17','time':'03:58:59'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)

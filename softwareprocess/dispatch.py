@@ -177,7 +177,7 @@ def dispatch(values=None):
         diff = yearNow - yearStart
         diff = int(diff.days)
         startime = startime.split(':')
-        if 0 < int(startime[0]) > 24 or 0 < int(startime[1]) > 60 or 0 < int(startime[2]) > 60:
+        if 0 < int(startime[0]) > 24 or 0 < int(startime[1]) > 59 or 0 < int(startime[2]) > 59:
             values['error'] = "Time is invalid"
             return values
         seconds = diff * 86400 + int(startime[0]) * 3600 + int(startime[1]) * 60 + int(startime[2])
