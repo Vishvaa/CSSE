@@ -285,8 +285,8 @@ class MyTestCase(unittest.TestCase):
         self.assertDictEqual(DP.dispatch(values),expectedDictionary)
 
     def test300_030ShouldCalculateLatLongWithMissingDate(self):
-        values = {'op':'predict','body':'Betelgeuse'}
-        expectedDictionary = {'op':'predict','body':'Betelgeuse','date':'2001-01-01','time':'00:00:00','long':'11d41.6','lat':'7d24.3'}
+        values = {'op':'predict','body':'BetelgeUse'}
+        expectedDictionary = {'op':'predict','body':'BetelgeUse','date':'2001-01-01','time':'00:00:00','long':'11d41.6','lat':'7d24.3'}
         self.assertDictEqual(DP.dispatch(values),expectedDictionary)
 
     def test300_040ShouldReturnErrorWhenWrongStarGiven(self):
@@ -308,10 +308,9 @@ class MyTestCase(unittest.TestCase):
 
     # Sad Path
 
-    # Should remove error if added in dict
     # Should calculate on leap years
-    # Should give error on wrong date formate
-    # Should give error on wrong time formate
+    # Should give error on wrong date format
+    # Should give error on wrong time format
     # Should calculate on normal years
     # Should calculate on close to leap years
     # Should not calculate if lat and long are present
