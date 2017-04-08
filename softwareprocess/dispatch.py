@@ -131,7 +131,6 @@ def dispatch(values=None):
             star = star.split()
             starbody[str.lower(star[0])] = str(star[1]) + ' ' + str(star[2])
         sbody.close()
-        print starbody
         if 'body' in values and values['body'] != "":
             starref = values['body']
             starref = str.lower(starref)
@@ -178,7 +177,7 @@ def dispatch(values=None):
         diff = yearNow - yearStart
         diff = int(diff.days)
         startime = startime.split(':')
-        if 0 < startime[0] > 24 or 0 < startime[1] > 60 or 0 < startime[2] > 60:
+        if 0 < int(startime[0]) > 24 or 0 < int(startime[0]) > 60 or 0 < int(startime[0]) > 60:
             values['error'] = "Time is invalid"
             return values
         seconds = diff * 86400 + int(startime[0]) * 3600 + int(startime[1]) * 60 + int(startime[2])
@@ -187,7 +186,6 @@ def dispatch(values=None):
         longitude = GHA + obser2atl2(SHA)
         longitude = longitude - (int(longitude / 360) * 360)
         longitude = longitude - 0.001
-        print convert2String(longitude)
         values['lat'] = latitude
         values['long'] = convert2String(longitude)
         return values    #This calculation is stubbed out
