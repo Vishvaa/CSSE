@@ -136,8 +136,8 @@ def dispatch(values=None):
         if 'date' in values and values['date'] != "":
             stardate = values['date']
         else:
-            stardate = datetime.date(2001,1,1)
             values['date'] = '2001-01-01'
+            stardate = values['date']
         startime = values['time']
         if starref in starbody:
             starfull = starbody[starref]
