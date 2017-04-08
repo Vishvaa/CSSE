@@ -132,7 +132,10 @@ def dispatch(values=None):
             starbody[star[0]] = str(star[1]) + ' ' + str(star[2])
         sbody.close()
         print starbody
-        starref = values['body']
+        if 'body' in values and values['body'] != "":
+            starref = values['body']
+        else:
+             values['error'] = "Mandatory Information Missing"
         if 'date' in values and values['date'] != "":
             stardate = values['date']
         else:
