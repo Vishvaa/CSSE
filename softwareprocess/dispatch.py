@@ -159,9 +159,10 @@ def dispatch(values=None):
         RefYear = 2001
         stardate = stardate.split('-')
         ObserYear = int(stardate[0])
-        diff = ObserYear - RefYear
         ObserMonth = int(stardate[1])
         ObserDay = int(stardate[2])
+        if 0 < ObserMonth > 12 or 0 < ObserDay > 31 or :
+        diff = ObserYear - RefYear
         leap = diff/4
         leap = int(leap)
         CumProg = diff * obser2atl2('-0d14.31667')

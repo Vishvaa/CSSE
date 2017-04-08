@@ -308,9 +308,15 @@ class MyTestCase(unittest.TestCase):
 
     # Sad Path
 
-    # Should calculate on leap years
+
     # Should give error on wrong date format
     # Should give error on wrong time format
     # Should calculate on normal years
     # Should calculate on close to leap years
     # Should not calculate if lat and long are present
+    # Should calculate on leap years
+
+
+    def test400_010ShouldReturnErrorWhenWrongDateFormat(self):
+        values = {'op':'predict','body':'betelgeuse','date':'2016-21-17','time':'03:15:42'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
