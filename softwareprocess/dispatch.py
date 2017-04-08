@@ -169,9 +169,6 @@ def dispatch(values=None):
         print convert2String(longitude)
         values['lat'] = latitude
         values['long'] = convert2String(longitude)
-
-
-
         return values    #This calculation is stubbed out
     elif(values['op'] == 'correct'):
         return values    #This calculation is stubbed out
