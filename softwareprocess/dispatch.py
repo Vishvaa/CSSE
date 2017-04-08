@@ -135,7 +135,8 @@ def dispatch(values=None):
         if 'body' in values and values['body'] != "":
             starref = values['body']
         else:
-             values['error'] = "Mandatory Information Missing"
+            values['error'] = "Mandatory Information Missing"
+            return values
         if 'date' in values and values['date'] != "":
             stardate = values['date']
         else:
