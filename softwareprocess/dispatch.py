@@ -134,12 +134,18 @@ def dispatch(values=None):
             star = star.split()
             starbody[str.lower(star[0])] = str(star[1]) + ' ' + str(star[2])
         sbody.close()
-        if 'body' in values and values['body'] != "":
+        # if 'body' in values and values['body'] != "":
+        #     starref = values['body']
+        #     starref = str.lower(starref)
+        # else:
+        #     values['error'] = "mandatory information is missing"
+        #     return values
+        try:
             starref = values['body']
             starref = str.lower(starref)
-        else:
-            values['error'] = "Mandatory Information Missing"
-            return values
+        except:
+            values['error'] = "mandatory information is missing"
+            return  values
         if 'date' in values and values['date'] != "":
             stardate = values['date']
         else:
@@ -159,8 +165,8 @@ def dispatch(values=None):
             values['error'] = 'Star not in Stars File'
             return values
         RefYear = 2001
-        stardate = stardate.split('-')
         try:
+            stardate = stardate.split('-')
             ObserYear = int(stardate[0])
             ObserMonth = int(stardate[1])
             ObserDay = int(stardate[2])
@@ -168,6 +174,10 @@ def dispatch(values=None):
             values['error'] = "Wrong Date"
             return values
         if 0 < ObserMonth > 12 or 0 < ObserDay > 31 or ObserYear < 2001:
+            values['error'] = "Date is invalid"
+            return values
+
+        if ObserMonth == 2 or ObserMonth == 4 or ObserMonth == 6 or ObserMonth == 9 or ObserMonth == 11 and ObserDay == 31 :
             values['error'] = "Date is invalid"
             return values
         diff = ObserYear - RefYear
@@ -179,8 +189,8 @@ def dispatch(values=None):
         yearNow = datetime.date(ObserYear,ObserMonth,ObserDay)
         diff = yearNow - yearStart
         diff = int(diff.days)
-        startime = startime.split(':')
         try:
+            startime = startime.split(':')
             if 0 < int(startime[0]) > 24 or 0 < int(startime[1]) > 59 or 0 < int(startime[2]) > 59:
                 values['error'] = "Time is invalid"
                 return values
