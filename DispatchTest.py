@@ -1,4 +1,3 @@
-from __future__ import print_function
 import unittest
 
 import softwareprocess.dispatch as DP
@@ -43,38 +42,29 @@ class MyTestCase(unittest.TestCase):
     #     values = {'op': 'predict'}
     #     self.assertDictEqual(DP.dispatch(values), values)
 
-    def test100_020ShouldReturnUnchangedValuesWithOperationCorrect(self):
-        values = {'op': 'correct'}
-        self.assertDictEqual(DP.dispatch(values), values)
-
-    def test100_030ShouldReturnUnchangedValuesWithOperationLocate(self):
-        values = {'op': 'locate'}
-        self.assertDictEqual(DP.dispatch(values), values)
+    # def test100_010ShouldReturnUnchangedValuesWithOperationCorrect(self):
+    #     values = {'op': 'correct'}
+    #     self.assertDictEqual(DP.dispatch(values), values)
+    #
+    # def test100_020ShouldReturnUnchangedValuesWithOperationLocate(self):
+    #     values = {'op': 'locate'}
+    #     self.assertDictEqual(DP.dispatch(values), values)
 
     # Sad path
-    def test100_910_ShouldReturnValuesWithErrorKeyWhenNoOpSpecified(self):
-        values = {}
-        self.assertTrue(DP.dispatch(values).has_key("error"), True)
-
-    def test100_920_ShouldReturnValuesWithoutErrorKeyWhenValuesHasDictionartyElementErrorAsKey(self):
-        values ={'observation': '15d04.9', 'height': '6.0', 'pressure': '1010', 'horizon': 'artificial',
-                 'temperature': '72', 'error': 'no op is specified'}
-        expectedDictionary = {'observation': '15d04.9', 'height': '6.0', 'pressure': '1010', 'horizon': 'artificial',
-                              'temperature': '72'}
-
-        self.assertDictEqual(DP.dispatch(values), expectedDictionary)
-
-    def test100_930ShouldReturnValuesWithErrorWhenParameterIsNotADictionary(self):
-        values = 42
-        self.assertTrue(DP.dispatch(values).has_key("error"), True)
-
-    def test100_940ShouldReturnValuesWithErrorWhenOpNotALegalOperation(self):
-        values = {'op': 'unknown'}
-        self.assertTrue(DP.dispatch(values).has_key("error"), True)
-
-
-    def test100_950ShouldReturnValuesWithErrorWhenDictionaryMissing(self):
-        self.assertTrue(DP.dispatch().has_key("error"), True)
+    # def test100_910_ShouldReturnValuesWithErrorKeyWhenNoOpSpecified(self):
+    #     values = {}
+    #     self.assertTrue(DP.dispatch(values).has_key("error"), True)
+    #
+    # def test100_920ShouldReturnValuesWithErrorWhenParameterIsNotADictionary(self):
+    #     values = 42
+    #     self.assertTrue(DP.dispatch(values).has_key("error"), True)
+    #
+    # def test100_930ShouldReturnValuesWithErrorWhenOpNotALegalOperation(self):
+    #     values = {'op': 'unknown'}
+    #     self.assertTrue(DP.dispatch(values).has_key("error"), True)
+    #
+    # def test100_940ShouldReturnValuesWithErrorWhenDictionaryMissing(self):
+    #     self.assertTrue(DP.dispatch().has_key("error"), True)
 
     # -----------------------------------------------------------------------
     # ---- Acceptance Tests
@@ -166,184 +156,253 @@ class MyTestCase(unittest.TestCase):
     #
 
     # sad path
-    def test200_910ShouldReturnErrorIfMandatoryInformationIsMissing(self):
-        values = {'op': 'adjust'}
-        self.assertTrue(DP.dispatch(values).has_key("error"), True)
-
-    def test200_920ShouldReturnErrorWhenObservationIsIncorrectFormat(self):
-        values = {'observation': 'abc', 'height': '6', 'pressure': '1010', 'horizon': 'natural', 'op': 'adjust',
-                  'temperature': '71'}
-        self.assertTrue(DP.dispatch(values).has_key("error"), True)
-
-    def test200_930ShouldReturnErrorWhenDegreeInObservationGreaterThan90(self):
-        values = {'observation': '101d15.2', 'height': '6', 'pressure': '1010', 'horizon': 'natural', 'op': 'adjust',
-                  'temperature': '71'}
-        self.assertTrue(DP.dispatch(values).has_key("error"), True)
-
-    def test200_940ShouldReturnErrorWhenDegreeInObservationLessThan0(self):
-            values = {'observation': '-12d15.2', 'height': '6', 'pressure': '1010', 'horizon': 'natural',
-                      'op': 'adjust',
-                      'temperature': '71'}
-            self.assertTrue(DP.dispatch(values).has_key("error"), True)
-
-    def test200_950ShouldReturnErrorWhenHeightNotNumericalValue(self):
-        values = {'observation': '89d15.2', 'height': 'a', 'pressure': '1010', 'horizon': 'natural', 'op': 'adjust',
-                  'temperature': '71'}
-        self.assertTrue(DP.dispatch(values).has_key("error"), True)
-
-    def test200_960ShouldReturnErrorWhenHeightLessThan0(self):
-        values = {'observation': '89d15.2', 'height': '-1', 'pressure': '1010', 'horizon': 'natural', 'op': 'adjust',
-                  'temperature': '71'}
-        self.assertTrue(DP.dispatch(values).has_key("error"), True)
-
-    def test200_970ShouldReturnErrorWhenTempNotANumericalValue(self):
-        values = {'observation': '89d15.2', 'height': '10', 'pressure': '1010', 'horizon': 'natural', 'op': 'adjust',
-                  'temperature': 'ab'}
-        self.assertTrue(DP.dispatch(values).has_key("error"), True)
-
-    def test200_980ShouldReturnErrorWhenTempLTMinus20(self):
-        values = {'observation': '89d15.2', 'height': '10', 'pressure': '1010', 'horizon': 'natural', 'op': 'adjust',
-                  'temperature': '-21'}
-        self.assertTrue(DP.dispatch(values).has_key("error"), True)
-
-    def test200_990ShouldReturnErrorWhenTempGEMinus120(self):
-        values = {'observation': '89d15.2', 'height': '10', 'pressure': '1010', 'horizon': 'natural', 'op': 'adjust',
-                  'temperature': '121'}
-        self.assertTrue(DP.dispatch(values).has_key("error"), True)
-
-    def test200_1000ShouldReturnErrorWhenPressureNotANumericalValue(self):
-        values = {'observation': '89d15.2', 'height': '10', 'pressure': 'aa', 'horizon': 'natural', 'op': 'adjust',
-                  'temperature': '72'}
-        self.assertTrue(DP.dispatch(values).has_key("error"), True)
-
-    def test200_1010ShouldReturnErrorWhenPressureLT100(self):
-        values = {'observation': '89d15.2', 'height': '10', 'pressure': '90', 'horizon': 'natural', 'op': 'adjust',
-                  'temperature': '72'}
-        self.assertTrue(DP.dispatch(values).has_key("error"), True)
-
-    def test200_1020ShouldReturnErrorWhenPressureGT1100(self):
-        values = {'observation': '89d15.2', 'height': '10', 'pressure': '1120', 'horizon': 'natural', 'op': 'adjust',
-                  'temperature': '72'}
-        self.assertTrue(DP.dispatch(values).has_key("error"), True)
-
-    def test200_1030ShouldReturnErrorWhenHorizonNotArtificalNorNatural(self):
-        values = {'observation': '89d15.2', 'height': '10', 'pressure': '1010', 'horizon': 'abc', 'op': 'adjust',
-                  'temperature': '72'}
-        self.assertTrue(DP.dispatch(values).has_key("error"), True)
-
-    def test200_1040ShouldReturnErrorWhenHorizonNotString(self):
-        values = {'observation': '89d15.2', 'height': '10', 'pressure': '1010', 'horizon': '45', 'op': 'adjust',
-                  'temperature': '72'}
-        self.assertTrue(DP.dispatch(values).has_key("error"), True)
-
-    def test200_1050ShouldReturnErrorWhenAltitudeInInputDictionary(self):
-        values = {'observation': '89d15.2', 'height': '10', 'pressure': '1010', 'horizon': 'natural', 'op': 'adjust',
-                  'temperature': '72', 'altitude':'29d59.9'}
-        self.assertTrue(DP.dispatch(values).has_key("error"), True)
-
+    # def test200_910ShouldReturnErrorIfMandatoryInformationIsMissing(self):
+    #     values = {'op': 'adjust'}
+    #     self.assertTrue(DP.dispatch(values).has_key("error"), True)
+    #
+    # def test200_920ShouldReturnErrorWhenObservationIsIncorrectFormat(self):
+    #     values = {'observation': 'abc', 'height': '6', 'pressure': '1010', 'horizon': 'natural', 'op': 'adjust',
+    #               'temperature': '71'}
+    #     self.assertTrue(DP.dispatch(values).has_key("error"), True)
+    #
+    # def test200_930ShouldReturnErrorWhenDegreeInObservationGreaterThan90(self):
+    #     values = {'observation': '101d15.2', 'height': '6', 'pressure': '1010', 'horizon': 'natural', 'op': 'adjust',
+    #               'temperature': '71'}
+    #     self.assertTrue(DP.dispatch(values).has_key("error"), True)
+    #
+    # def test200_940ShouldReturnErrorWhenDegreeInObservationLessThan0(self):
+    #         values = {'observation': '-12d15.2', 'height': '6', 'pressure': '1010', 'horizon': 'natural',
+    #                   'op': 'adjust',
+    #                   'temperature': '71'}
+    #         self.assertTrue(DP.dispatch(values).has_key("error"), True)
+    #
+    # def test200_950ShouldReturnErrorWhenHeightNotNumericalValue(self):
+    #     values = {'observation': '89d15.2', 'height': 'a', 'pressure': '1010', 'horizon': 'natural', 'op': 'adjust',
+    #               'temperature': '71'}
+    #     self.assertTrue(DP.dispatch(values).has_key("error"), True)
+    #
+    # def test200_960ShouldReturnErrorWhenHeightLessThan0(self):
+    #     values = {'observation': '89d15.2', 'height': '-1', 'pressure': '1010', 'horizon': 'natural', 'op': 'adjust',
+    #               'temperature': '71'}
+    #     self.assertTrue(DP.dispatch(values).has_key("error"), True)
+    #
+    # def test200_970ShouldReturnErrorWhenTempNotANumericalValue(self):
+    #     values = {'observation': '89d15.2', 'height': '10', 'pressure': '1010', 'horizon': 'natural', 'op': 'adjust',
+    #               'temperature': 'ab'}
+    #     self.assertTrue(DP.dispatch(values).has_key("error"), True)
+    #
+    # def test200_980ShouldReturnErrorWhenTempLTMinus20(self):
+    #     values = {'observation': '89d15.2', 'height': '10', 'pressure': '1010', 'horizon': 'natural', 'op': 'adjust',
+    #               'temperature': '-21'}
+    #     self.assertTrue(DP.dispatch(values).has_key("error"), True)
+    #
+    # def test200_990ShouldReturnErrorWhenTempGEMinus120(self):
+    #     values = {'observation': '89d15.2', 'height': '10', 'pressure': '1010', 'horizon': 'natural', 'op': 'adjust',
+    #               'temperature': '121'}
+    #     self.assertTrue(DP.dispatch(values).has_key("error"), True)
+    #
+    # def test200_1000ShouldReturnErrorWhenPressureNotANumericalValue(self):
+    #     values = {'observation': '89d15.2', 'height': '10', 'pressure': 'aa', 'horizon': 'natural', 'op': 'adjust',
+    #               'temperature': '72'}
+    #     self.assertTrue(DP.dispatch(values).has_key("error"), True)
+    #
+    # def test200_1010ShouldReturnErrorWhenPressureLT100(self):
+    #     values = {'observation': '89d15.2', 'height': '10', 'pressure': '90', 'horizon': 'natural', 'op': 'adjust',
+    #               'temperature': '72'}
+    #     self.assertTrue(DP.dispatch(values).has_key("error"), True)
+    #
+    # def test200_1020ShouldReturnErrorWhenPressureGT1100(self):
+    #     values = {'observation': '89d15.2', 'height': '10', 'pressure': '1120', 'horizon': 'natural', 'op': 'adjust',
+    #               'temperature': '72'}
+    #     self.assertTrue(DP.dispatch(values).has_key("error"), True)
+    #
+    # def test200_1030ShouldReturnErrorWhenHorizonNotArtificalNorNatural(self):
+    #     values = {'observation': '89d15.2', 'height': '10', 'pressure': '1010', 'horizon': 'abc', 'op': 'adjust',
+    #               'temperature': '72'}
+    #     self.assertTrue(DP.dispatch(values).has_key("error"), True)
+    #
+    # def test200_1040ShouldReturnErrorWhenHorizonNotString(self):
+    #     values = {'observation': '89d15.2', 'height': '10', 'pressure': '1010', 'horizon': '45', 'op': 'adjust',
+    #               'temperature': '72'}
+    #     self.assertTrue(DP.dispatch(values).has_key("error"), True)
+    #
+    # def test200_1050ShouldReturnErrorWhenAltitudeInInputDictionary(self):
+    #     values = {'observation': '89d15.2', 'height': '10', 'pressure': '1010', 'horizon': 'natural', 'op': 'adjust',
+    #               'temperature': '72', 'altitude':'29d59.9'}
+    #     self.assertTrue(DP.dispatch(values).has_key("error"), True)
+    #
 
     # Happy Path
-    def test200_110ShouldCalculateAltitude(self):
-        values = {'observation': '30d1.5', 'height': '19.0', 'pressure': '1000', 'horizon': 'artificial', 'op': 'adjust', 'temperature': '85'}
-        expectedDictionary = {'altitude':'29d59.9', 'observation': '30d1.5', 'height': '19.0', 'pressure': '1000', 'horizon': 'artificial', 'op': 'adjust', 'temperature': '85'}
+    # def test200_110ShouldCalculateAltitude(self):
+    #     values = {'observation': '30d1.5', 'height': '19.0', 'pressure': '1000', 'horizon': 'artificial', 'op': 'adjust', 'temperature': '85'}
+    #     expectedDictionary = {'altitude':'29d59.9', 'observation': '30d1.5', 'height': '19.0', 'pressure': '1000', 'horizon': 'artificial', 'op': 'adjust', 'temperature': '85'}
+    #     self.assertDictEqual(DP.dispatch(values), expectedDictionary)
+    #
+    # def test200_120ShouldCalculateAltitudeWithDefaultValue(self):
+    #     values = {'observation': '42d0.0',  'op': 'adjust'}
+    #     expectedDictionary = {'altitude':'41d59.0', 'observation': '42d0.0',  'op': 'adjust'}
+    #     self.assertDictEqual(DP.dispatch(values), expectedDictionary)
+    #
+    # def test200_130ShouldCalculateAltitudeWithExtraKey(self):
+    #     values = {'observation': '42d0.0',  'op': 'adjust', 'extraKey':'ignore'}
+    #     expectedDictionary = {'altitude':'41d59.0', 'observation': '42d0.0',  'op': 'adjust', 'extraKey':'ignore'}
+    #     self.assertDictEqual(DP.dispatch(values), expectedDictionary)
+
+    # -----------------------------------------------------------------------
+    # ---- Acceptance Tests
+    # 300 operation {'op': 'predict'}
+    #    Happy path analysis:
+    #    body: name of the celestial body that has been sighted.
+    #          mandatory string
+    #    date: date of the observation
+    #          optional string in yyyy-mm-dd format
+    #                               yyyy is GE 2001
+    #          if missing "2001-01-01"
+    #    time: time of the sighting
+    #          optional string in hh:mm:ss format
+    #          if missing "00:00:00"
+    #
+    #     Sad path analysis:
+    #       values     : if values = {'op': 'predict'}:
+    #                       return {'error':'mandatory information is missing'}
+    #       body       : if missing
+    #                       -- add values['error'] = diagnostic string to the dictionary
+    #                                return values
+    #                    if value['body'] not match with the name of the navigable stars
+    #                       -- add values['error'] = diagnostic string to the dictionary
+    #                                return values
+    #       date       : not string
+    #                    not in the form of yyyy-mm-dd
+    #                    year in date is LE 2001
+    #                       --add values['error'] = diagnostic string to the dictionary
+    #                                return values
+    #       time       : not string
+    #                    not in the form of hh:mm:ss
+    #                       -- add values['error'] = diagnostic string to the dictionary
+    #                                return values
+
+    # Happy Path
+
+    def test300_100ShouldReturnTheCorrectStarLatitudeValue(self):
+        values = {'op': 'predict', 'body': 'Betelgeuse'}
+        self.assertEqual(DP.dispatch(values)['lat'], '7d24.3')
+
+    def test300_110ShouldPredictTheLocationWithoutDateAndTime(self):
+        values = {'op': 'predict', 'body': 'Betelgeuse'}
+        data = DP.dispatch(values).get('long').split('d')
+        result = int(data[0]) + float(data[1])/60
+        self.assertAlmostEquals(result, 11.695, delta=1.695)
+
+    def test300_120ShouldPredictTheLocation(self):
+        values = {'op': 'predict', 'body': 'Betelgeuse', 'date': '2016-01-17', 'time': '03:15:42'}
+        data = DP.dispatch(values).get('long').split('d')
+        result = int(data[0]) + float(data[1]) / 60
+        self.assertAlmostEqual(result, 75.8933333333, delta=0.895)
+
+    def test300_130ShouldPredictTheLocation(self):
+        values = {'op': 'predict', 'body': 'Altair', 'date': '2016-01-17', 'time': '03:15:42'}
+        self.assertAlmostEqual(DP.dispatch(values)['lat'],"8d54.8")
+
+    def test300_140ShouldPredictTheLocation(self):
+        values = {'op': 'predict', 'body': 'Altair', 'date': '2016-01-17', 'time': '03:15:42'}
+        data = DP.dispatch(values).get('long').split('d')
+        result = int(data[0]) + float(data[1]) / 60
+        self.assertAlmostEqual(result, 227.023333333, delta=2.023333333)
+
+    # Sad path
+    def test300_900ShouldReturnErrorIfMandatoryInformationIsMissing(self):
+        values = {'op': 'predict'}
+        expectedDictionary = {'error':'mandatory information is missing', 'op': 'predict'}
         self.assertDictEqual(DP.dispatch(values), expectedDictionary)
 
-    def test200_120ShouldCalculateAltitudeWithDefaultValue(self):
-        values = {'observation': '42d0.0',  'op': 'adjust'}
-        expectedDictionary = {'altitude':'41d59.0', 'observation': '42d0.0',  'op': 'adjust'}
-        self.assertDictEqual(DP.dispatch(values), expectedDictionary)
-
-    def test200_130ShouldCalculateAltitudeWithExtraKey(self):
-        values = {'observation': '42d0.0',  'op': 'adjust', 'extraKey':'ignore'}
-        expectedDictionary = {'altitude':'41d59.0', 'observation': '42d0.0',  'op': 'adjust', 'extraKey':'ignore'}
-        self.assertDictEqual(DP.dispatch(values), expectedDictionary)
-
-
-
-
-
-######## *******************Writing tests for op = predict case  **************
-
-    #happy path
-
-    # Should calculate lat and long on correct data entered
-    # Should calculate lat and long on star name in lowercase
-    # Should calculate lat and long on missing date
-    # Should calculate lat and long on missing time
-    # Should genereate error on missing star name
-    # Should generate error on wrong star input
-
-    def test300_010ShouldCalculateLatLogWithProperData(self):
-        values = {'op':'predict','body':'Betelgeuse','date':'2016-01-17','time':'03:15:42'}
-        expectedDictionary = {'op':'predict','body':'Betelgeuse','date':'2016-01-17','time':'03:15:42','long':'75d53.6','lat':'7d24.3'}
-        self.assertDictEqual(DP.dispatch(values),expectedDictionary)
-
-
-    def test300_020ShouldCalculateLatLongWithMissingDate(self):
-        values = {'op':'predict','body':'Betelgeuse','time':'03:15:42'}
-        expectedDictionary = {'op':'predict','body':'Betelgeuse','date':'2001-01-01','time':'03:15:42','long':'60d45.2','lat':'7d24.3'}
-        self.assertDictEqual(DP.dispatch(values),expectedDictionary)
-
-    def test300_030ShouldCalculateLatLongWithMissingTime(self):
-        values = {'op':'predict','body':'BetelgeUse'}
-        expectedDictionary = {'op':'predict','body':'BetelgeUse','date':'2001-01-01','time':'00:00:00','long':'11d41.6','lat':'7d24.3'}
-        self.assertDictEqual(DP.dispatch(values),expectedDictionary)
-
-    def test300_040ShouldReturnErrorWhenWrongStarGiven(self):
-        values = {'op':'predict','body':'Betelgeus'}
+    def test300_910ShouldReturnIfBodyIsNumeric(self):
+        values = {'op': 'predict', 'body': 42}
         self.assertTrue(DP.dispatch(values).has_key("error"), True)
 
-    def test300_050ShouldReturnErrorWhenMandatoryInfoMissing(self):
-        values = {'op':'predict'}
+    def test300_920ShouldReturnIfBodyIsInvalid(self):
+        values = {'op': 'predict', 'body': 'unknown'}
         self.assertTrue(DP.dispatch(values).has_key("error"), True)
 
-    def test300_060ShouldCalculateLatLogWithLowerCaseStarName(self):
-        values = {'op':'predict','body':'betelgeuse','date':'2016-01-17','time':'03:15:42'}
-        expectedDictionary = {'op':'predict','body':'betelgeuse','date':'2016-01-17','time':'03:15:42','long':'75d53.6','lat':'7d24.3'}
-        self.assertDictEqual(DP.dispatch(values),expectedDictionary)
-
-
-
-    # Sad Path
-
-
-    # Should give error on wrong date format        Done
-    # Should give error on wrong time format        Done
-    # Should calculate on normal years              Done
-    # Should calculate on close to leap years       Done
-    # Should not calculate if lat and long are present  Done
-    # Should calculate on leap years                Done
-
-
-    def test400_010ShouldReturnErrorWhenWrongDateFormat(self):
-        values = {'op':'predict','body':'betelgeuse','date':'2016-21-17','time':'03:15:42'}
+    def test300_930ShouldReturnErrorWhenDateHasIncorrectFormat(self):
+        values = {'op': 'predict', 'body': 'Betelgeuse', 'date': 'aa', 'time': '03:15:42'}
         self.assertTrue(DP.dispatch(values).has_key("error"), True)
 
-    def test400_020ShouldReturnErrorWhenWrongDateFormat(self):
-        values = {'op':'predict','body':'betelgeuse','date':'2016-2-47','time':'03:15:42'}
+    def test300_940ShouldReturnErrorIfDateIsNumeric(self):
+        values = {'op': 'predict', 'body': 'Betelgeuse', 'date': 42, 'time': '03:15:42'}
         self.assertTrue(DP.dispatch(values).has_key("error"), True)
 
-    def test400_030ShouldReturnErrorWhenWrongDateFormat(self):
-        values = {'op':'predict','body':'betelgeuse','date':'2000-1-17','time':'03:15:42'}
+    def test300_950ShouldReturnErrorWhenYearInDateIsInvalid(self):
+        values = {'op': 'predict', 'body': 'Betelgeuse', 'date': 'aa-09-17', 'time': '03:15:42'}
         self.assertTrue(DP.dispatch(values).has_key("error"), True)
 
-    def test400_040ShouldReturnErrorWhenWrongDateFormat(self):
-        values = {'op':'predict','body':'betelgeuse','date':'2000-221-1e7','time':'03:15:42'}
+    def test300_960ShouldReturnErrorWhenYearIsLT2001(self):
+        values = {'op': 'predict', 'body': 'Betelgeuse', 'date': '2000-09-17', 'time': '03:15:42'}
         self.assertTrue(DP.dispatch(values).has_key("error"), True)
 
-    def test400_050ShouldReturnErrorWhenWrongTimeFormat(self):
-        values = {'op':'predict','body':'betelgeuse','date':'2016-1-17','time':'03:65:42'}
+    def test300_970ShouldReturnErrorWhenFebruaryHasLeapDayWhenItIsNotInLeapYear(self):
+        values = {'op': 'predict', 'body': 'Betelgeuse', 'date': '2017-02-29', 'time': '03:15:42'}
         self.assertTrue(DP.dispatch(values).has_key("error"), True)
 
-    def test400_060ShouldReturnErrorWhenWrongTimeFormat(self):
-        values = {'op':'predict','body':'betelgeuse','date':'2016-1-17','time':'03:60:42'}
+    def test300_980ShouldReturnErrorWhenMonthInDateIsInvalid(self):
+        values = {'op': 'predict', 'body': 'Betelgeuse', 'date': '2001-aa-17', 'time': '03:15:42'}
         self.assertTrue(DP.dispatch(values).has_key("error"), True)
 
-
-    def test400_070ShouldReturnErrorWhenWrongTimeFormat(self):
-        values = {'op':'predict','body':'betelgeuse','date':'2016-1-17','time':'03:589:59'}
+    def test300_990ShouldReturnErrorWhenMonthInDateIsGT12(self):
+        values = {'op': 'predict', 'body': 'Betelgeuse', 'date': '2017-35-13', 'time': '03:15:42'}
         self.assertTrue(DP.dispatch(values).has_key("error"), True)
 
-    def test400_080ShouldReturnErrorWhenLatORLongAlreadyPresentInInput(self):
-        values = {'op':'predict','body':'betelgeuse','date':'2016-1-17','time':'03:15:42','long':'adg'}
+    def test300_1000ShouldReturnErrorWhenDayInDateIsInvalid(self):
+        values = {'op': 'predict', 'body': 'Betelgeuse', 'date': '2016-08-aa', 'time': '03:15:42'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test300_1010ShouldReturnErrorWhenDayInDateIsGT31(self):
+        values = {'op': 'predict', 'body': 'Betelgeuse', 'date': '2016-08-99', 'time': '03:15:42'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test300_1020ShouldReturnErrorForMonthsThatDoesNotHave31Days(self):
+        values = {'op': 'predict', 'body': 'Betelgeuse', 'date': '2017-04-31', 'time': '03:15:42'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test300_1030ShouldReturnErrorWhenFebruaryHasMoreThan29Days(self):
+        values = {'op': 'predict', 'body': 'Betelgeuse', 'date': '2016-02-30', 'time': '03:15:42'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test300_1040ShouldReturnErrorIfTimeHasIncorrectFormat(self):
+        values = {'op':'predict', 'body': 'Betelgeuse', 'date': '2016-01-17', 'time': 'aa'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test300_1050ShouldReturnErrorIfTimeIsNumeric(self):
+        values = {'op':'predict', 'body': 'Betelgeuse', 'date': '2016-01-17', 'time': 19}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test300_1060ShouldReturnErrorIfHourInTimeIsInvalid(self):
+        values = {'op': 'predict', 'body': 'Betelgeuse', 'date': '2016-01-17', 'time': 'aa:15:34'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test300_1070ShouldReturnErrorIfHourInTimeGT24(self):
+        values = {'op': 'predict', 'body': 'Betelgeuse', 'date': '2017-02-10', 'time': '25:15:02'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test300_1080ShouldReturnErrorIfMinuteInTimeIsInvalid(self):
+        values = {'op': 'predict', 'body': 'Betelgeuse', 'date': '2017-02-10', 'time': '25:aa:02'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test300_1090ShouldReturnErrorIfMinuteInTimeIsGT59(self):
+        values = {'op': 'predict', 'body': 'Betelgeuse', 'date': '2017-02-10', 'time': '03:61:02'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test300_1100ShouldReturnErrorIfSecondInTimeIsInvalid(self):
+        values = {'op': 'predict', 'body': 'Betelgeuse', 'date': '2017-02-10', 'time': '03:15:aa'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test300_1110ShouldReturnErrorIfSecondInTimeIsGT59(self):
+        values = {'op': 'predict', 'body': 'Betelgeuse', 'date': '2017-02-10', 'time': '03:15:99'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test300_1120ShouldReturnErrorIfLatitudeIsInInputDictionary(self):
+        values = {'op': 'predict', 'body': 'Betelgeuse', 'date': '2017-02-10', 'time': '02:15:02', 'lat':'7d24.3'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test300_1130ShouldReturnErrorIfLongitudeIsInInputDictionary(self):
+        values = {'op': 'predict', 'body': 'Betelgeuse', 'date': '2017-02-10', 'time': '02:15:02', 'long':'75d53.6'}
         self.assertTrue(DP.dispatch(values).has_key("error"), True)
