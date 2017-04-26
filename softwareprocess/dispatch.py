@@ -1,5 +1,5 @@
 import math
-import os
+
 import datetime
 def obser2atl(con):
     con = str(con)
@@ -134,12 +134,6 @@ def dispatch(values=None):
             star = star.split()
             starbody[str.lower(star[0])] = str(star[1]) + ' ' + str(star[2])
         sbody.close()
-        # if 'body' in values and values['body'] != "":
-        #     starref = values['body']
-        #     starref = str.lower(starref)
-        # else:
-        #     values['error'] = "mandatory information is missing"
-        #     return values
         try:
             starref = values['body']
             starref = str.lower(starref)
