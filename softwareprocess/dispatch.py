@@ -201,18 +201,19 @@ def dispatch(values=None):
         values['long'] = convert2String(longitude)
         return values    #This calculation is stubbed out
     elif(values['op'] == 'correct'):
-        
-        LHA = obser2atl2(values['long']) + obser2atl2(values['assumedLong'])
-        intermediateDistance = ((math.sin(math.radians(obser2atl2(values['lat']))) * math.sin(math.radians(obser2atl2(values['assumedLat'])))) + ( math.cos(math.radians(obser2atl2(values['lat']))) * math.cos(math.radians(obser2atl2(values['assumedLat']))) * math.cos(math.radians(LHA))))
-        correctedAltitude = math.asin(intermediateDistance)
-        correctedDistance = math.radians(obser2atl2(values['altitude'])) - correctedAltitude
-        num = ((math.sin(math.radians(obser2atl2(values['lat']))) - (math.sin(math.radians(obser2atl2(values['assumedLat']))) * intermediateDistance )))
-        dum = (math.cos(math.radians(obser2atl2(values['assumedLat']))) * math.cos(math.asin(intermediateDistance)))
-        correctedAzimuth = math.acos(num / dum) * 180 / math.pi
-        correctedDistance = int(correctedDistance * 180 / math.pi * 60)
-        values['correctedDistance'] = str(correctedDistance)
-        values['correctedAzimuth'] = convert2String(correctedAzimuth)
-
+        try:
+            LHA = obser2atl2(values['long']) + obser2atl2(values['assumedLong'])
+            intermediateDistance = ((math.sin(math.radians(obser2atl2(values['lat']))) * math.sin(math.radians(obser2atl2(values['assumedLat'])))) + ( math.cos(math.radians(obser2atl2(values['lat']))) * math.cos(math.radians(obser2atl2(values['assumedLat']))) * math.cos(math.radians(LHA))))
+            correctedAltitude = math.asin(intermediateDistance)
+            correctedDistance = math.radians(obser2atl2(values['altitude'])) - correctedAltitude
+            num = ((math.sin(math.radians(obser2atl2(values['lat']))) - (math.sin(math.radians(obser2atl2(values['assumedLat']))) * intermediateDistance )))
+            dum = (math.cos(math.radians(obser2atl2(values['assumedLat']))) * math.cos(math.asin(intermediateDistance)))
+            correctedAzimuth = math.acos(num / dum) * 180 / math.pi
+            correctedDistance = int(correctedDistance * 180 / math.pi * 60)
+            values['correctedDistance'] = str(correctedDistance)
+            values['correctedAzimuth'] = convert2String(correctedAzimuth)
+        except:
+            values['error'] = "mandatory information is missing"
         return values    #This calculation is stubbed out
     elif(values['op'] == 'locate'):
         return values    #This calculation is stubbed out
