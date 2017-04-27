@@ -451,6 +451,6 @@ class MyTestCase(unittest.TestCase):
         values = {'op':'correct', 'lat':'16d32.3', 'long':'95d41.6', 'assumedLat':'-53d38.4', 'assumedLong':' 74d35.3'}
         self.assertTrue(DP.dispatch(values).has_key("error"), True)
 
-    # def test400_070ShouldReturnErrorONMissingLat(self):
-    #     values = {'op':'correct', 'long':'95d41.6', 'altitude':'13d42.3',  'assumedLat':'-53d38.4', 'assumedLong':' 74d35.3'}
-    #     self.assertTrue(DP.dispatch(values).has_key("error"), True)
+    def test500_010ShouldReturnErrorONWrongValueOfLat(self):
+        values = {'op':'correct', 'lat':'-91d32.3','long':'95d41.6', 'altitude':'13d42.3',  'assumedLat':'-53d38.4', 'assumedLong':' 74d35.3'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)

@@ -22,7 +22,17 @@ def obser2atl(con):
             return con
         else:
             return con
-
+def splitncheck(con):
+    degnmin = con.split('d')
+    deg = int(degnmin[0])
+    min = float(degnmin[1])
+    if 0 <= deg > 360 and 0 <= min > 60:
+        return 0
+    if -90 < deg > 90 and 0 <= min > 60:
+        return 1
+    if 0 < deg > 90 and 0 <= min > 60:
+        return 2
+    return 5
 def obser2atl2(con):
     degree = con.split('d')
     minute = float(degree[1])
@@ -201,7 +211,16 @@ def dispatch(values=None):
         values['long'] = convert2String(longitude)
         return values    #This calculation is stubbed out
     elif(values['op'] == 'correct'):
-
+        try:
+            lat = splitncheck(values['lat'])
+            alat = splitncheck(values['assumedLat'])
+            log = splitncheck(values['long'])
+            alog = splitncheck(values['assumedLong'])
+            atl = splitncheck(values['altitude'])
+            if lat == alat == 1 and log == alog == 0 and atl == 2:
+        except:
+            values['error'] = "Provided Values is/are invalid"
+            return values
         try:
             LHA = obser2atl2(values['long']) + obser2atl2(values['assumedLong'])
             intermediateDistance = ((math.sin(math.radians(obser2atl2(values['lat']))) * math.sin(math.radians(obser2atl2(values['assumedLat'])))) + ( math.cos(math.radians(obser2atl2(values['lat']))) * math.cos(math.radians(obser2atl2(values['assumedLat']))) * math.cos(math.radians(LHA))))
@@ -215,6 +234,7 @@ def dispatch(values=None):
             values['correctedAzimuth'] = convert2String(correctedAzimuth)
         except:
             values['error'] = "mandatory information is missing"
+            return values
         return values    #This calculation is stubbed out
     elif(values['op'] == 'locate'):
         return values    #This calculation is stubbed out
