@@ -471,3 +471,7 @@ class MyTestCase(unittest.TestCase):
     def test500_030ShouldReturnErrorONWrongValueOfLat(self):
         values = {'op':'correct', 'lat':'-91d32.3','long':'95d41.6', 'altitude':'13d42.3',  'assumedLat':'-153d38.4', 'assumedLong':' 74d35.3'}
         self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test500_040ShouldReturnErrorONAlreadyCorrectedValuesINInputDict(self):
+        values = {'op':'correct', 'lat':'16d32.3', 'long':'95d41.6', 'altitude':'13d42.3',  'assumedLat':'-53d38.4', 'assumedLong':' 74d35.3', 'correctedDistance':'3950', 'correctedAzimuth':'164d42.9'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
