@@ -212,7 +212,6 @@ def dispatch(values=None):
             correctedDistance = int(correctedDistance * 180 / math.pi * 60)
             values['correctedDistance'] = str(correctedDistance)
             values['correctedAzimuth'] = convert2String(correctedAzimuth)
-            print (values)
         except:
             values['error'] = "mandatory information is missing"
         return values    #This calculation is stubbed out
