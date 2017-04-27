@@ -406,3 +406,14 @@ class MyTestCase(unittest.TestCase):
     def test300_1130ShouldReturnErrorIfLongitudeIsInInputDictionary(self):
         values = {'op': 'predict', 'body': 'Betelgeuse', 'date': '2017-02-10', 'time': '02:15:02', 'long':'75d53.6'}
         self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+
+
+######## Writing test cases for op=correct ############
+
+################## happy Path  #############
+
+    # Should return corrected distance and aziumth on proper data provided
+
+    def test400_010ShouldcalculateCorrectedDistanceandAzimuthwithProperData(self):
+        values = {}
