@@ -201,7 +201,7 @@ def dispatch(values=None):
         values['long'] = convert2String(longitude)
         return values    #This calculation is stubbed out
     elif(values['op'] == 'correct'):
-
+        
         LHA = obser2atl2(values['long']) + obser2atl2(values['assumedLong'])
         intermediateDistance = ((math.sin(math.radians(obser2atl2(values['lat']))) * math.sin(math.radians(obser2atl2(values['assumedLat'])))) + ( math.cos(math.radians(obser2atl2(values['lat']))) * math.cos(math.radians(obser2atl2(values['assumedLat']))) * math.cos(math.radians(LHA))))
         correctedAltitude = math.asin(intermediateDistance)

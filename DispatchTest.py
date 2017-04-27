@@ -427,4 +427,6 @@ class MyTestCase(unittest.TestCase):
         print (DP.dispatch(values))
         self.assertDictEqual(values, expectedValues, "error: Values do not match")
 
-    def
+    def test400_020ShouldReturnErrorONMissingLat(self):
+        values = {'op':'correct', 'long':'95d41.6', 'altitude':'13d42.3',  'assumedLat':'-53d38.4', 'assumedLong':' 74d35.3'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
