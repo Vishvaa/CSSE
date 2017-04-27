@@ -26,10 +26,9 @@ def splitncheck(num,con):
     degnmin = con.split('d')
     deg = int(degnmin[0])
     min = float(degnmin[1])
-    if num ==0 and deg >= 0 and deg < 360 and min >= 0 and min <60:
-        #if 0 < deg > 360 and 0 < min > 60:
+    if num ==0 and 0 <= deg < 360 and min >= 0 and min <60:
         return 0
-    elif num == 1 and deg > -90 and deg < 90 and 0 < min < 60:
+    elif num == 1 and -90 < deg < 90 and 0 < min < 60:
         return 1
     elif num == 2 and 0 < deg < 90 and 0 < min < 60:
         return 2
@@ -219,11 +218,6 @@ def dispatch(values=None):
             log = splitncheck(0,values['long'])
             alog = splitncheck(0,values['assumedLong'])
             atl = splitncheck(2,values['altitude'])
-            print lat
-            print alat
-            print log
-            print alog
-            print atl
             if lat == alat == 1 and log == alog == 0 and atl == 2:
                 pass
             else:
