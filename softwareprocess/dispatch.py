@@ -224,7 +224,7 @@ def dispatch(values=None):
                 values['error'] = "Provided Values is/are invalid"
                 return values
         except:
-            values['error'] = "Provided Values is/are invalid"
+            values['error'] = "Provided Values is/are invalid/missing"
             return values
         try:
             LHA = obser2atl2(values['long']) + obser2atl2(values['assumedLong'])
