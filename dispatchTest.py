@@ -406,3 +406,51 @@ class MyTestCase(unittest.TestCase):
     def test300_1130ShouldReturnErrorIfLongitudeIsInInputDictionary(self):
         values = {'op': 'predict', 'body': 'Betelgeuse', 'date': '2017-02-10', 'time': '02:15:02', 'long':'75d53.6'}
         self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+
+
+######## Writing test cases for op=correct ############
+
+################## happy Path  #############
+
+    # Should return corrected distance and aziumth on proper data provided
+    # Should return error on missing op.
+    # Should return error on missing Lat.
+    # Should return error on missing Long.
+    # Should return error on missing Altitude.
+    # Should return error on missing assumedLong.
+    # Should return error on missing assumedLat.
+    # Should return error on wrong value of  assumedLat.
+    # Should return error on wrong value of  assumedLong.
+    # Should return error on wrong value of  Lat.
+    # Should return error on wrong value of  Long.
+    # Should return error on wrong value of  Altitude.
+    def test400_010ShouldcalculateCorrectedDistanceandAzimuthwithProperData(self):
+        values = {'op':'correct', 'lat':'16d32.3', 'long':'95d41.6', 'altitude':'13d42.3',  'assumedLat':'-53d38.4', 'assumedLong':' 74d35.3'}
+        expectedValues = {'op':'correct', 'lat':'16d32.3', 'long':'95d41.6', 'altitude':'13d42.3',  'assumedLat':'-53d38.4', 'assumedLong':' 74d35.3', 'correctedDistance':'3950', 'correctedAzimuth':'164d42.9'}
+        self.assertDictEqual(DP.dispatch(values), expectedValues)
+
+
+    def test400_020ShouldReturnErrorONMissingLat(self):
+        values = {'op':'correct', 'long':'95d41.6', 'altitude':'13d42.3',  'assumedLat':'-53d38.4', 'assumedLong':' 74d35.3'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test400_030ShouldReturnErrorONMissingLong(self):
+        values = {'op':'correct',  'lat':'16d32.3', 'altitude':'13d42.3',  'assumedLat':'-53d38.4', 'assumedLong':' 74d35.3'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test400_040ShouldReturnErrorONMissingassumedLat(self):
+        values = {'op':'correct', 'lat':'16d32.3', 'long':'95d41.6', 'altitude':'13d42.3', 'assumedLong':' 74d35.3'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test400_050ShouldReturnErrorONMissingassumedLong(self):
+        values = {'op':'correct', 'lat':'16d32.3', 'long':'95d41.6', 'altitude':'13d42.3',  'assumedLat':'-53d38.4'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test400_060ShouldReturnErrorONMissingaltitude(self):
+        values = {'op':'correct', 'lat':'16d32.3', 'long':'95d41.6', 'assumedLat':'-53d38.4', 'assumedLong':' 74d35.3'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test500_010ShouldReturnErrorONWrongValueOfLat(self):
+        values = {'op':'correct', 'lat':'-91d32.3','long':'95d41.6', 'altitude':'13d42.3',  'assumedLat':'-53d38.4', 'assumedLong':' 74d35.3'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
