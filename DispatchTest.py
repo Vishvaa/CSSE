@@ -427,6 +427,7 @@ class MyTestCase(unittest.TestCase):
     # Should return error on wrong value of  Altitude.
     def test400_010ShouldcalculateCorrectedDistanceandAzimuthwithProperData(self):
         values = {'op':'correct', 'lat':'16d32.3', 'long':'95d41.6', 'altitude':'13d42.3',  'assumedLat':'-53d38.4', 'assumedLong':' 74d35.3'}
+        print (DP.dispatch(values))
         expectedValues = {'op':'correct', 'lat':'16d32.3', 'long':'95d41.6', 'altitude':'13d42.3',  'assumedLat':'-53d38.4', 'assumedLong':' 74d35.3', 'correctedDistance':'3950', 'correctedAzimuth':'164d42.9'}
         self.assertDictEqual(DP.dispatch(values), expectedValues)
 
