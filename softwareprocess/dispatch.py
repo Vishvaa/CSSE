@@ -27,7 +27,7 @@ def obser2atl2(con):
     degree = con.split('d')
     minute = float(degree[1])
     if int(degree[0]) != 0:
-        if degree[0] < 0:
+        if int(degree[0]) < 0:
             degree = int(degree[0]) - minute / 60
         else:
             degree = int(degree[0]) + minute / 60
@@ -201,8 +201,23 @@ def dispatch(values=None):
         values['long'] = convert2String(longitude)
         return values    #This calculation is stubbed out
     elif(values['op'] == 'correct'):
-
-
+        LHA = obser2atl2(values['long']) + obser2atl2(values['assumedLong'])
+        #intermediateDistance = (math.sin(obser2atl2(values['lat'])) * math.sin(obser2atl2(values['assumedLat']))) + (math.cos(obser2atl2(values['lat'])) * math.cos(obser2atl2(values['assumedLat'])) * math.cos(math.radians(LHA)))
+        intermediateDistance = ((math.sin(math.radians(obser2atl2(values['lat']))) * math.sin(math.radians(obser2atl2(values['assumedLat'])))) + ( math.cos(math.radians(obser2atl2(values['lat']))) * math.cos(math.radians(obser2atl2(values['assumedLat']))) * math.cos(math.radians(LHA))))
+        correctedAltitude = math.asin(intermediateDistance)
+        correctedDistance = math.radians(obser2atl2(values['altitude'])) - correctedAltitude
+        num = (math.sin(math.radians(obser2atl2(values['lat']))) - (math.sin(math.radians(obser2atl2(values['assumedLat']))) * intermediateDistance))
+        dum = math.cos(math.radians(obser2atl2(values['assumedLat']))) * math.cos(math.asin(intermediateDistance))
+        #num = math.acos((math.sin(obser2atl2(values['lat'])) - (math.sin(obser2atl2(values['assumedLat'])) * intermediateDistance )))
+        #dum = (math.cos(obser2atl2(values['assumedLat'])) * math.cos(math.asin(intermediateDistance)))
+        correctedAzimuth = math.acos(num / dum) * 180 / math.pi
+        correctedDistance = int(correctedDistance * 180 / math.pi * 60)
+        #correctedAzimuth = math.acos((math.sin(obser2atl2(values['lat'])) - (math.sin(obser2atl2(values['assumedLat'])) * intermediateDistance))) / (math.cos(obser2atl2(values['assumedLat']))) * math.cos(math.asin(intermediateDistance))
+        values['correctedDistance'] = str(correctedDistance)
+        values['correctedAzimuth'] = convert2String(correctedAzimuth)
+        print values
+        #arccos((sin(lat) - (sin(assumedLat) * intermediateDistance)) /
+        #(cos(assumedLat) * cos(arcsin(intermediateDistance)))))
 
         return values    #This calculation is stubbed out
     elif(values['op'] == 'locate'):

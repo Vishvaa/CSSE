@@ -416,4 +416,7 @@ class MyTestCase(unittest.TestCase):
     # Should return corrected distance and aziumth on proper data provided
 
     def test400_010ShouldcalculateCorrectedDistanceandAzimuthwithProperData(self):
-        values = {}
+        values = {'op':'correct', 'lat':'16d32.3', 'long':'95d41.6', 'altitude':'13d42.3',  'assumedLat':'-53d38.4', 'assumedLong':' 74d35.3'}
+        expectedValues = {'op':'correct', 'lat':'16d32.3', 'long':'95d41.6', 'altitude':'13d42.3',  'assumedLat':'-53d38.4', 'assumedLong':' 74d35.3', 'correctedDistance':'3950', 'correctedAzimuth':'164d42.9'}
+        print (DP.dispatch(values))
+        self.assertDictEqual(values, expectedValues, "error: Values do not match")
