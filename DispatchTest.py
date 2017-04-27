@@ -430,6 +430,11 @@ class MyTestCase(unittest.TestCase):
         expectedValues = {'op':'correct', 'lat':'16d32.3', 'long':'95d41.6', 'altitude':'13d42.3',  'assumedLat':'-53d38.4', 'assumedLong':' 74d35.3', 'correctedDistance':'3950', 'correctedAzimuth':'164d42.9'}
         self.assertDictEqual(DP.dispatch(values), expectedValues)
 
+    def test400_090ShouldcalculateCorrectedDistanceandAzimuthwithProperData(self):
+        values = {'assumedLat': '35d59.7', 'altitude': '37d17.4', 'assumedLong': '74d35.3', 'long': '154d5.4', 'lat': '89d20.1', 'op': 'correct'}
+        expectedValues = {'assumedLat': '35d59.7', 'correctedDistance': '104', 'altitude': '37d17.4', 'assumedLong': '74d35.3', 'long': '154d5.4', 'correctedAzimuth': '0d36.8', 'lat': '89d20.1', 'op': 'correct'}
+        self.assertDictEqual(DP.dispatch(values), expectedValues)
+
 
     def test400_020ShouldReturnErrorONMissingLat(self):
         values = {'op':'correct', 'long':'95d41.6', 'altitude':'13d42.3',  'assumedLat':'-53d38.4', 'assumedLong':' 74d35.3'}
@@ -461,4 +466,8 @@ class MyTestCase(unittest.TestCase):
 
     def test500_020ShouldReturnErrorONWrongValueOfLat(self):
         values = {'op':'correct', 'lat':'-16.0d32.3','long':'95d41.6', 'altitude':'13d42.3',  'assumedLat':'-53d38.4', 'assumedLong':' 74d35.3'}
+        self.assertTrue(DP.dispatch(values).has_key("error"), True)
+
+    def test500_030ShouldReturnErrorONWrongValueOfLat(self):
+        values = {'op':'correct', 'lat':'-91d32.3','long':'95d41.6', 'altitude':'13d42.3',  'assumedLat':'-153d38.4', 'assumedLong':' 74d35.3'}
         self.assertTrue(DP.dispatch(values).has_key("error"), True)

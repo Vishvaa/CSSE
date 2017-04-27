@@ -212,6 +212,9 @@ def dispatch(values=None):
         values['long'] = convert2String(longitude)
         return values    #This calculation is stubbed out
     elif(values['op'] == 'correct'):
+        # if 'correctedDistance' in values or 'correctedAzimu' in values:
+        #     values['error'] = "CorrectedValues already present in input dictionary"
+        #     return values
         try:
             lat = splitncheck(1,values['lat'])
             alat = splitncheck(1,values['assumedLat'])
