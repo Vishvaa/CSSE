@@ -1,1 +1,2 @@
-# CSSE
+Star Sighting System
+Using Pyhton
